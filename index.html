@@ -37,6 +37,8 @@
     <meta property="og:type" content="website"/>
     <meta property="og:locale" content="en_US"/>
     <meta property="article:author" content="Lluís Revilla Sancho"/>
+    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
     <link rel="stylesheet" href="css/my-theme.css" type="text/css" />
   </head>
   <body>
@@ -46,7 +48,7 @@ class: center, middle, inverse, title-slide
 # Releasing packages to archives
 ### <a href="https://llrs.dev">Lluís Revilla Sancho</a> <a href="https://twitter.com/Lluis_Revilla"><svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></a> <br> <a href="https://ghana.llrs.dev">Slides:</a> <a href="https://github.com/llrs/"><svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg></a>
 ### IDIBAPS, CIBEREHD
-### 2022/01/16 <sup><sub>(updated: 2021-12-27)</sub></sup>
+### 2022/01/16 <sup><sub>(updated: 2021-12-28)</sub></sup>
 
 ---
 
@@ -76,7 +78,7 @@ Workshops and material
 
 .left-column[
 
-&lt;img src="images/tidyverse_dtplyr.png" title="Tree view of the dtplyr package repository on 2021/08/06." alt="Tree view of the dtplyr package repository on 2021/08/06." width="100%" /&gt;
+&lt;img src="images/tidyverse_dtplyr.png" title="Tree view of the dtplyr package repository on 2021/08/06." alt="Tree view of the dtplyr package repository on 2021/08/06." width="100%" style="display: block; margin: auto;" /&gt;
 
 ]
 
@@ -112,6 +114,358 @@ CRAN/Bioconductor vs Zenodo
 R-universe + CRAN/Bioconductor
 
 ---
+
+# Submitting the package
+
+
+
+
+
+
+Goals of a *submission*
+
+- Sharing something of quality that can be useful to others.
+- Make it easier for others to build upon your package.
+- Other: work, grant, prestige ...
+
+???
+
+Submissions are though specially if coming from places with poor training
+Lack of confidence/experience with reviews.
+
+--
+
+
+|            Archives reviewing packages             |                                Objectives of the reviews?                                |
+|:--------------------------------------------------:|:----------------------------------------------------------------------------------------:|
+|    &lt;a href=https://cran.r-project.org/&gt;CRAN&lt;/a&gt;    |                        Non-trivial publication quality packages.                         |
+| &lt;a href=https://bioconductor.org/&gt;Bioconductor&lt;/a&gt; |                 Promote high-quality, well documented and interoperable.                 |
+|     &lt;a href=https://ropensci.org/&gt;rOpenSci&lt;/a&gt;     | Drive the adoption of best practices with useful, transparent and constructive feedback. |
+
+
+???
+
+Differences in objectives but all looking for quality
+CRAN: Point errors, comments
+Bioconductor: In detail comment of style, classes, dependencies, structure…
+rOpenSci: guideline for reviewers (about style, tests, functions, description, documentation, …)
+
+
+CRAN ~16000 packages, Bioconductor ~2000,  rOpenSci ~300
+To work with this slides use xaringan::infinite_moon_reader()
+
+---
+name:projects
+class: center
+
+# Project differences
+
+
+
+|          |                                      CRAN                                       |                                  Bioconductor                                  |                                rOpenSci                                |
+|:---------|:-------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|:----------------------------------------------------------------------:|
+|Guides    | &lt;a href=https://cran.r-project.org/doc/manuals/r-release/R-exts.html&gt;R-exts&lt;/a&gt; | &lt;a href=https://www.bioconductor.org/developers/package-guidelines&gt;Website&lt;/a&gt; |       &lt;a href=https://devguide.ropensci.org/index.html&gt;Book&lt;/a&gt;        |
+|Submit    |         &lt;a href=https://cran.r-project.org/submit.html&gt;tar.gz file&lt;/a&gt;          |    &lt;a href=https://github.com/Bioconductor/Contributions/&gt;fill an issue&lt;/a&gt;    | &lt;a href=https://github.com/ropensci/software-review/&gt;fill an issue&lt;/a&gt; |
+|Review    |                                   email &amp; ftp                                   |                                     Github                                     |                                 Github                                 |
+|Setup     |                                      None                                       |                           ssh key, subscribe mailing                           |                                CI tests                                |
+|Checks    |                                 check --as-cran                                 |                                check; BiocCheck                                |                            check --as-cran                             |
+|OS        |                               Windows, Unix, iOS                                |                               Windows, Unix, iOS                               |                           Windows, Unix, iOS                           |
+|Versions  |                         oldrel, release, patched, devel                         |                                 release, devel                                 |                         oldrel, release, devel                         |
+|Cycle     |                                   Always open                                   |                               2 annual releases                                |                              Always open                               |
+|Editors   |                                        0                                        |                                       0                                        |                                  ~10                                   |
+|Reviewers |                                    &lt;b&gt;~5&lt;/b&gt;                                    |                                      ~10                                       |                               Volunteers                               |
+
+.middle[Different setup, different review.]
+
+???
+
+The different projects/archives have different setups.
+*Read the table*
+All of them first you need to pass the automatic checks in place before a human looks into it.
+Will use data from the three projects but mostly refer to CRAN.
+
+---
+name:submissions
+# Submissions
+
+
+&lt;img src="index_files/figure-html/submissions-1.png" title="Three bar plots with new submissions, each bar is a month: on the left CRAN with 9 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 montlhy submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci." alt="Three bar plots with new submissions, each bar is a month: on the left CRAN with 9 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 montlhy submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci." width="1080" style="display: block; margin: auto;" /&gt;
+
+
+.center[
+CRAN data thanks to the [incoming dashboard](https://lockedata.github.io/cransays/articles/dashboard.html).
+
+]
+
+???
+
+One order of magnitude of difference between each other CRAN &gt; Bioconductor &gt; rOpenSci
+Many variability on month
+Also very few data collected from CRAN so far (Also there are some hiccups on CRAN collection, near the end of May the CRON job stopped working for a week. )
+
+---
+name:organization
+# Organization
+
+&lt;img src="index_files/figure-html/cran-holidays-1.png" title="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to May 2021 accounted hourly. Pretest is mainly below 10 packages and newbies aroudn 70. There are saome increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beinning of April." alt="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to May 2021 accounted hourly. Pretest is mainly below 10 packages and newbies aroudn 70. There are saome increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beinning of April." width="1080" style="display: block; margin: auto;" /&gt;
+
+.center[
+Packages are moved by reviewers [between folders](https://llrs.dev/2021/01/cran-review/#cran-load).
+]
+
+???
+
+Many folders but these two are the most important.
+There isn't an explanation from CRAN about how do they work.
+Pretest is resubmission (newer versions of packages) and also for newbies
+
+---
+name:submission-patterns
+# Submissions patterns
+
+&lt;img src="index_files/figure-html/cran-day-month-1.png" title="Two plots with a loess estimation of the number of pacakges on the CRAN's folders newbies and pretest. On the left by day of month: Newbies has some dip at the beginning of the month and around day 20-29 but is around 70 pacakges a day, while pretests is constant around 50 packages each day. On the right plot the same data by day of week: many pacakges at the beginning of the week and fewer on the weekend. Pretest packages fall from 50 to around 30, while newbies drops from 80 to 70." alt="Two plots with a loess estimation of the number of pacakges on the CRAN's folders newbies and pretest. On the left by day of month: Newbies has some dip at the beginning of the month and around day 20-29 but is around 70 pacakges a day, while pretests is constant around 50 packages each day. On the right plot the same data by day of week: many pacakges at the beginning of the week and fewer on the weekend. Pretest packages fall from 50 to around 30, while newbies drops from 80 to 70." width="1080" style="display: block; margin: auto;" /&gt;
+
+.center[
+Check [dashboard](https://lockedata.github.io/cransays/articles/dashboard.html) before submitting?
+]
+
+???
+
+Submit when you are ready, better on the queue than outside.
+
+---
+name:review-time
+# Review time
+
+&lt;img src="index_files/figure-html/cran-review-1.png" title="Histogram of time that a submission is on CRAN's queue. One big histogram from 0 to over 2000 hours, where most there are below 500h and decay in logarithmic pattern. Above it a zoom on the first week, split by 24h till 168h (1 week). Most submissions are less than 24h on the queue." alt="Histogram of time that a submission is on CRAN's queue. One big histogram from 0 to over 2000 hours, where most there are below 500h and decay in logarithmic pattern. Above it a zoom on the first week, split by 24h till 168h (1 week). Most submissions are less than 24h on the queue." width="1080" style="display: block; margin: auto;" /&gt;
+
+.center[Reviews are short, brief and to the point.]
+
+???
+
+Median time on submissions ~9 hours, mean time ~31.9166628 hours.
+1, 2, 9, 31.9166628, 34, 2365
+
+
+
+
+---
+
+# Review speed 
+
+&lt;img src="index_files/figure-html/cran-submission-time-1.png" title="A plot with the loess estimation of hours for submission on CRAN. One line if the pacakge is new another if it is an update. Updated packages are 5 hours on the queue while new pacakges start from 160 hours dep to 80 before CRAN holidays (end of december and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours." alt="A plot with the loess estimation of hours for submission on CRAN. One line if the pacakge is new another if it is an update. Updated packages are 5 hours on the queue while new pacakges start from 160 hours dep to 80 before CRAN holidays (end of december and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours." width="1080" style="display: block; margin: auto;" /&gt;
+
+.center[Expect 3-7 days till your new package is on CRAN.]
+
+???
+
+Different time, can be shorter or longer.
+Most longer need resubmission.
+Resubmit with different version (makes it easier to track how many are).
+
+
+
+```
+## # A tibble: 2 × 2
+##   new     time
+##   &lt;chr&gt;  &lt;dbl&gt;
+## 1 New       59
+## 2 Update     5
+```
+
+CRAN: 60h
+Bioconductor: most of them in 1 month
+rOpenSci: in 2 months (seeking 2 reviewers and posting them).
+
+
+
+
+---
+name: users
+# Users role
+
+
+
+
+
+
+&lt;img src="index_files/figure-html/users-plots-1.png" title="Two plots showing the number of actions done by users and on how many submissions they have done that. On the left for Bioconductor and on the right for rOpenSci. The points size is according to how many users did so, there are two colors and shapes, one for regular users and one for editors (rOpenSci) or reviewers (Bioconductor). Most active people are core people from the project, but there are some regular users involved on many issues and doing many actions too." alt="Two plots showing the number of actions done by users and on how many submissions they have done that. On the left for Bioconductor and on the right for rOpenSci. The points size is according to how many users did so, there are two colors and shapes, one for regular users and one for editors (rOpenSci) or reviewers (Bioconductor). Most active people are core people from the project, but there are some regular users involved on many issues and doing many actions too." width="1080" style="display: block; margin: auto;" /&gt;
+
+.center[Some users are very involved.]
+
+???
+
+Bioconductor reviewers do a lot
+rOpenSci editors too
+Both organizations have a group of users involved on the package review system.
+Even if Bioconductor doesn't explicitly ask for reviewers from the community.
+Bioconductor are considering now how to improve the review system.
+Omitted bots bioc-issue-bot and ropensci-review-bot (new March 2021).
+
+---
+
+# Comments
+
+&lt;img src="index_files/figure-html/comments-1.png" title="Four plots, in 2 rows and 2 columns, the first column for Bioconductor and the second data from rOpenSci. First row shows comments from reviewers in relation to author's comments (almost linear relation). On the second row other users vs author's comments. Only linear relationship on rOpenSci as this include the reviewers. " alt="Four plots, in 2 rows and 2 columns, the first column for Bioconductor and the second data from rOpenSci. First row shows comments from reviewers in relation to author's comments (almost linear relation). On the second row other users vs author's comments. Only linear relationship on rOpenSci as this include the reviewers. " width="1080" style="display: block; margin: auto;" /&gt;
+
+.center[
+A dialog between authors and reviewers &amp; editors. 
+]
+
+???
+
+Non reviewers users on bioconductor still chime in to help.
+
+---
+name:bot
+
+# Bot role
+
+&lt;img src="index_files/figure-html/bioc-issue-bot-1.png" title="Tile plot with rows showing different message from bioc-issue-bot and columns being each issue for Bioconductor. The tile is colored by the number of times each bot posted the message. The plot shows how the bot changed with time and which are the most common feedback provided (in order of more feedback given): Build results, valid push, received, accepted, reviewer assigned. And common errors: missing repository, repost, fix version, closing issue, lacking ssh key, multiple repositories detected..." alt="Tile plot with rows showing different message from bioc-issue-bot and columns being each issue for Bioconductor. The tile is colored by the number of times each bot posted the message. The plot shows how the bot changed with time and which are the most common feedback provided (in order of more feedback given): Build results, valid push, received, accepted, reviewer assigned. And common errors: missing repository, repost, fix version, closing issue, lacking ssh key, multiple repositories detected..." width="1080" style="display: block; margin: auto;" /&gt;
+
+.center[Bot helps on the process and changes with the process]
+
+???
+
+Bot provides feedback of many issues and actions performed. 
+It can be changed/adapted to change in requirements or errors.
+rOpenSci is going to have a bot too [ropensci-review-bot](https://github.com/ropensci-review-bot/). 
+
+---
+exclude: true
+name: labels
+
+# Labels
+
+&lt;img src="index_files/figure-html/labels-1.png" title="Two tile plots showing labels related to the review process on the vertical axis and issues on the horitzontal axis. On the left Bioconductor and on the right rOpenSci. Bioconductor show many accepted packages few declined and more inactive issues. rOpenSci plot shows more labels which allow to better know the state of the review." alt="Two tile plots showing labels related to the review process on the vertical axis and issues on the horitzontal axis. On the left Bioconductor and on the right rOpenSci. Bioconductor show many accepted packages few declined and more inactive issues. rOpenSci plot shows more labels which allow to better know the state of the review." width="1080" style="display: block; margin: auto;" /&gt;
+
+
+.bottom[ .center[ Labels are used to indicate progress on the submission. ] ]
+
+???
+
+On bioconductor most problems with the submissions are not the package itself but not replying or chosing another venue.
+rOpenSci provides more detailed questioning for scope of a package.
+
+---
+name:success-submissions
+# Success submissions
+
+&lt;img src="index_files/figure-html/cran_success-1.png" title="On the left a bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of pacakges. The bars are colored by if they are accepted or not. It is also split by new packages and updated pacakges. More new pacakges are not accepted on the first try than updates, but on resubmissions they are accepted. The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2021/06. Two lines with one for new submissions which shows a consistend rate around 81% and package updates is between 85% and 95% (until the time series get to close for the review to be finished)." alt="On the left a bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of pacakges. The bars are colored by if they are accepted or not. It is also split by new packages and updated pacakges. More new pacakges are not accepted on the first try than updates, but on resubmissions they are accepted. The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2021/06. Two lines with one for new submissions which shows a consistend rate around 81% and package updates is between 85% and 95% (until the time series get to close for the review to be finished)." width="1080" style="display: block; margin: auto;" /&gt;
+
+.bottom[.center[High approval rates!!]]
+
+???
+
+Bioconductor &amp; rOpenSci 50%, some submissions are abandoned or do not fit the project.
+Different problems faced by new packages and older ones. 
+More indeepth review requires 1 month for each reviewer. 
+
+
+```
+## # A tibble: 49 × 7
+##    submission_n new    Accepted     n  perc suspended perc_suspended
+##    &lt;fct&gt;        &lt;chr&gt;  &lt;lgl&gt;    &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt;          &lt;dbl&gt;
+##  1 1            New    FALSE      624 17.6        624          30.9 
+##  2 1            New    TRUE      2917 82.4          0           0   
+##  3 1            Update FALSE      675 13.4        675          33.4 
+##  4 1            Update TRUE      4372 86.6          0           0   
+##  5 2            New    FALSE      143 23.5        143           7.08
+##  6 2            New    TRUE       466 76.5          0           0   
+##  7 2            Update FALSE      264  8.41       264          13.1 
+##  8 2            Update TRUE      2874 91.6          0           0   
+##  9 3            New    FALSE       42 21.2         42           2.08
+## 10 3            New    TRUE       156 78.8          0           0   
+## # … with 39 more rows
+```
+
+```
+## # A tibble: 2 × 3
+##   Approved     n  perc
+##   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;
+## 1 No        1218 0.502
+## 2 Yes       1206 0.498
+```
+
+```
+## # A tibble: 1 × 4
+##   `1. awaiting moderation` `2. review in progress` `3a. accepted` `3b. declined`
+##                      &lt;dbl&gt;                   &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;
+## 1                0.0000231                   0.296           35.7           19.1
+```
+
+
+
+|name                            | Median days| Total days|
+|:-------------------------------|-----------:|----------:|
+|1/editor-checks                 |         2.9|        2.9|
+|2/seeking-reviewer(s)           |         2.4|        5.3|
+|3/reviewer(s)-assigned          |         7.1|       12.4|
+|4/review(s)-in-awaiting-changes |        26.9|       39.3|
+|5/awaiting-reviewer(s)-response |        17.1|       56.4|
+|6/approved                      |        13.3|       69.7|
+
+
+
+---
+name:submit
+# Submit!
+
+
+.pull-left[
+
+.tip-submission[
+Prepare
+.center[
+ 
+  Manual to [create R packages](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Creating-R-packages), [R Packages](https://r-pkgs.org/)  
+  Follow policies ([CRAN](https://cran.r-project.org/web/packages/policies.html)) and **guidelines** ([Bioconductor](https://www.bioconductor.org/developers/package-submission/), [rOpenSci](https://devguide.ropensci.org/)).
+]
+]
+
+.tip-submission[
+.center[
+**Check**
+
+  CRAN pre-submission checks: [macOS](https://mac.r-project.org/macbuilder/submit.html), [Windows](https://win-builder.r-project.org/)
+  
+  [Use Rhub](https://builder.r-hub.io/), [Github Actions](https://github.com/r-lib/actions)]
+]
+
+.tip-submission[ 
+.right[(Re)***Submit***]
+.center[[Fix and explain](https://cran.r-project.org/web/packages/policies.html#Re_002dsubmission) on re-submission.]
+]
+
+]
+???
+
+Follow the detailed guidelines from Bioconductor and rOpenSci.
+Fix any problem that you haven't detected previously (double check the policy on CRAN). 
+Resubmit
+
+--
+
+.pull-right[
+
+.center[
+# Thanks
+
+R core and CRAN team,
+Bioconductor core, 
+rOpenSci editors and reviewers
+]
+
+]
+
+???
+
+Thank also to the package authors (mainly tidyverse, ggplot2 and rhub, and gh).
+Maëlle Salmon and Stephanie Locke for the dashboard.
+rOpenSci review: [Video](https://www.youtube.com/watch?v=iJnn_9xKkqk)
+
+
+---
 # Maintaining the package
 
 Better quality =&gt; Less work
@@ -120,7 +474,7 @@ Iteration process
 
 ## New features
 
-## Deprecating features
+## Deprecating features/breaking changes
 
 ---
 
