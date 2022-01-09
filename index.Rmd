@@ -1,16 +1,14 @@
 ---
-title: "Releasing packages to archives"
-subtitle: ""
-author: '[Lluís Revilla Sancho](https://llrs.dev) 
- [`r icons::fontawesome("twitter")`](https://twitter.com/Lluis_Revilla) <br> 
- [Slides: ](https://ghana.llrs.dev) 
- [`r icons::fontawesome("github")`](https://github.com/llrs/) 
- '
+title: "Releasing packages"
+subtitle: "Creating, releasing and maintaining packages"
+author: "Lluís Revilla Sancho"
 institute: "IDIBAPS, CIBEREHD"
-date: "2022/01/16 <sup><sub>(updated: `r Sys.Date()`)</sub></sup>"
+date: "2022/01/16"
 output:
   xaringan::moon_reader:
+    self_contained: false
     lib_dir: libs
+    seal: false
     css: ["default", "css/my-theme.css"]
     nature:
       beforeInit: "macros.js"
@@ -18,13 +16,14 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+    
 ---
 
 ```{r xaringan-setup, echo=FALSE}
 xaringanExtra::use_tile_view()
 xaringanExtra::use_freezeframe()
-xaringanExtra::use_clipboard()
-xaringanExtra::use_broadcast()
+# xaringanExtra::use_clipboard()
+xaringanExtra::use_webcam()
 ```
 
 
@@ -55,8 +54,10 @@ meta() |>
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, message = FALSE, error = FALSE, warning = FALSE, 
-                      fig.align = "center", fig.height = 6, fig.width = 15, fig.retina = 3)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, error = FALSE,
+                      warning = FALSE, cache = TRUE,
+                      fig.align = "center", fig.height = 6, 
+                      fig.width = 15, fig.retina = 3)
 library("dplyr")
 library("stringr")
 library("tidyr")
@@ -73,68 +74,359 @@ logic2string <- function(x){
 }
 ```
 
+
+layout: true
+
+<div class="my-footer">
+<a id="link" href="packages2archives.llrs.dev" style="position:absolute; left:2.5%">
+packages2archives.llrs.dev</a>
+<a href="https://twitter.com/Lluis_Revilla" style="position:absolute; left:45%"> Lluis_Revilla <svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg">
+  <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path>
+</svg></a></div>  
+
+---
+name: title-slide
+class: center, middle
+
+# Releasing packages
+
+**For R User Group Ghana on their 3rd anniversary**
+
+[Lluís Revilla Sancho](https://llrs.dev)  
+[IDIBAPS](https://www.clinicbarcelona.org/en/idibaps), [CIBEREHD](https://www.ciberehd.org/en)
+
+
+2022/01/16
+
+
+.minor[.minor[(updated: `r Sys.Date()` )]]
+
+---
+
+name:index
+class: bold-last-item
+
+# Index
+
+
+ - [Creating good packages](#good-packages).
+ 
 ???
 
-Image credit: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sharingan_triple.svg)
+Mainly based on the [previous workshop](https://llrs.dev/talk/workshop-creating-packages/) for this user group.
+
+--
+
+ - [Releasing packages](#release-packages).
+ 
+???
+
+Mainly based on the [useR!2021 talk](https://llrs.dev/talk/user-2021/)
+
+--
+
+ - [Maintaining packages.](#maintaining-packages)
+ 
+
+???
+
+Mainly based on the [archived packages files.](https://llrs.dev/post/2021/12/07/reasons-cran-archivals/)
 
 ---
-
+name:good-packages
+class: bold-last-item
 # Creating good packages
 
-Workshops and material
+> Packages provide a mechanism for loading optional code, data and documentation as needed.
+
+
+--
+
+- Code
+
+???
+
+Most common usage
+
+--
+
+- Data
+
+???
+
+Less used due to restrictions on size on CRAN
+
+--
+
+- Documentation
+
+???
+
+In my opinion the most important aspect.
+
+---
+name:resources
+
+## Resources 
+
+- **[R extensions](https://cran.r-project.org/doc/manuals/r-release/R-exts.html "Offical complete instructions")**: Official documentation, everything is answered here
+- **[R packages](https://r-pkgs.org/ "R packages")**: A book more digestible and using other packages and tools to create packages.
+- [Package primer](https://kbroman.org/pkg_primer/ "R package primer a minimal tutorial"): Website explaining different aspects of creating a package.
+- [Creating R packages from scratch](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/ "Creating a cats package"): Very easy to follow blog post.
+- [Updated version by Tomas Westlake](https://r-mageddon.netlify.app/post/writing-an-r-package-from-scratch/ "Creating a cats package with usethis"): Similar to the post above but with more modern tools.
+- **[rOpenSci](https://devguide.ropensci.org/)**: A book  about writing packages and maintaining them on good shape.
+- [Video](https://www.youtube.com/watch?v=IlWMkz769B4) with a similar workshop showing live the code used. 
+
+**Many resources!**
+
+--
+
+.center[
+
+You can also find help online (always check the etiquette)
+- Asking your local community: R User Group Ghana
+- [Asking on Twitter #rstats](https://www.t4rstats.com/)
+- [Asking on Stack Overflow](https://stackoverflow.com/questions/5963269)
+- [Asking on Rstudio forum](https://community.rstudio.com/)
+
+]
+???
+
+Resources used to create this workshop
+
+[Maëlle post](https://masalmon.eu/2017/12/11/goodrpackages/): how to write good packages is also recommended.
 
 
 ---
 
-## Example
+## Structure
 
 .left-column[
 
-```{r, echo=FALSE, out.width="100%", fig.alt="Tree view of the dtplyr package repository on 2021/08/06."}
+```{r include-graphic, echo=FALSE, out.width="100%"}
+#| fig.alt = "Tree view of the dtplyr package repository on 2021/08/06."
 knitr::include_graphics("images/tidyverse_dtplyr.png")
 ```
 
 ]
 
 .right-column[
-- `.github` folder: Files specific to GitHub (this isn't necessary/[Advanced content](#advanced))
-- A `R` folder with [*.R files](#r-files): your code.
-- A `man` folder with [*.rd files](#rd-files): your documentation.
-- A `tests` folder: [Check the code](#tests) of the package.
-- A [`vignette` folder](#vignettes): Long documentation; not just examples.
+- `.github` folder: Files specific to GitHub (this isn't necessary/[Advanced content](https://ghana.llrs.dev/#advanced))
+- A __`R` folder with [*.R files](https://ghana.llrs.dev/#r-files)__: your code.
+- A `man` folder with [*.rd files](https://ghana.llrs.dev/#rd-files): your documentation.
+- A `tests` folder: [Check the code](https://ghana.llrs.dev/#tests) of the package.
+- A [`vignette` folder](https://ghana.llrs.dev/#vignettes): Long documentation; not just examples.
 - A `.Rbuildignore`: A file describing what to omit when building the package.
-- A [`DESCRIPTION` file](#description): Summary and description of the package.
-- A [`LICENSE` file](#licenses): The conditions under the package is released.
-- A [`NAMESPACE` file](#namespace): What this package shares and needs.
-- A [`NEWS` file](#news): What has changed since last release.
-- A [`README`](#readme): How to install and why this packages is needed and some basic examples.
+- A __[`DESCRIPTION` file](https://ghana.llrs.dev/#description)__: Summary and description of the package.
+- A [`LICENSE` file](https://ghana.llrs.dev/#licenses): The conditions under the package is released.
+- A __[`NAMESPACE` file](https://ghana.llrs.dev/#namespace)__: What this package shares and needs.
+- A [`NEWS` file](https://ghana.llrs.dev/#news): What has changed since last release.
+- A [`README`](https://ghana.llrs.dev/#readme): How to install and why this packages is needed and some basic examples.
+]
+
+---
+name: description
+
+## DESCRIPTION
+
+.pull-left[
+
+```
+Package: my_package
+Title: Short Descriptiono in Title Case
+Version: 0.0.9000
+Authors@R: c(person(given = "Name",
+             role = c("aut", "cre", "cph"),
+             email = "my@email.com"),
+             ...)
+Description: A long description of the package
+License: MIT + file LICENSE
+Depends: 
+    R (>= 4.1.2)
+Imports: 
+    methods
+Suggests: 
+    covr,
+    knitr
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+```
+]
+
+???
+Name of the package, description of the package, maintainer, relationships with other packages...
+Language does not need to be on English, it can be in other languages
+
+--
+
+.pull-right[
+
+**Package**: Name (ASCII characters and . and -).  
+**Title**: Short description.
+**Version**: At least two numbers.  
+**`Authors@R`**: Information with an author (auth) and maintainer (cre).  
+**Description**: Longer description.  
+**License**: Information about the copyright.  
+**Depends**: Packages needed without which the package doesn't work.  
+**Imports**: Packages used.  
+**Suggests**: Packages used on examples or vignettes.  
+**VignetteBuilder**: How to build the vignette.  
+Other optional fields:
+- **URL**: Link to the source code, and webpages.
+- **BugReports**: Link to where to report issues.
+- **Encoding**: ASCII or UTF-8.
+- ...
+
 ]
 
 
-
----
-# Choosing the right archive/repository
-
-##  Repository
-
-Git repository vs ropensci
-
-## Archive
-
-CRAN/Bioconductor vs Zenodo
-
-## All
-
-R-universe + CRAN/Bioconductor
-
 ---
 
-# Submitting the package
+## R files
 
+1. Only valid R code: functions, objects, environments that don't depend on previous code executed. 
+
+2. If a function uses a function of an other package use `package::function`
+
+    3. Add that package to the appropriate site on [Description](#description)
+    
+    4. add a `#' @importFrom package function` (See next slide)
+
+```r
+meow <- function() {
+    message("meow")
+}
+```
+
+---
+name: namespace
+## NAMESPACE
+
+Import code of other packages and export code of your package:
+
+```r
+import(dplyr)
+importFrom(methods, is)
+export(meow)
+```
+
+???
+
+This can be done manually no need to do it via other tools  (but recommended)
+
+--
+
+If using [roxygen2](https://cran.r-project.org/package=roxygen2) you can use:
+
+```r
+#' @import dplyr
+#' @importFrom methods is
+is_meow <- function(x){
+    methods(x, "meow")
+}
+#' @export # To make it available to others
+meow <- function() {
+    message("meow")
+} 
+```
+
+Which will be written to the NAMESPACE file when [updating the documentation](#rd-files)
+
+???
+Important file!
+
+---
+name: rd-files
+
+## Function documentation
+
+.pull-left[
+Using roxygen2:
+
+```r
+#' Check if it is a meow
+#'
+#' Check if object is of class meow.
+#' @param x A character string.
+#'
+#' @return A logical value with either TRUE or FALSE if the object is a meow.
+#' @export
+#' @examples
+#' is_meow("hi")
+#' @importFrom methods is
+is_meow <- function(x){
+    methods(x, "meow")
+}
+```
+]
+
+.pull-right[
+Convert this specials comments into *.Rd files with:
+
+```r
+document()
+```
+]
+
+???
+
+In Rstudio you can insert the skeleton with <kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> .
+In Rstudio you can convert the special comments into documentation with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd> .
+
+---
+name: release-packages
+# Releasing the package
+
+???
+
+What does it mean?
+
+What are the expectations?
+
+---
+class: bold-last-item
+## Choosing the right archive/repository
+
+- Repository
+
+    Git repository `r emo::ji("crossed_swords")` svn, or none
+
+???
+
+Repositories keep versions of code
+
+--
+
+- Archive
+
+    CRAN/Bioconductor `r emo::ji("crossed_swords")` Zenodo
+
+???
+
+Archive do not delete content (normally)
+Keep versions "released". 
+Only CRAN, Bioconductor and additional repositories like [r-universe](https://r-universe.org), [drat](https://cran.r-project.org/package=drat), ... work via `install.packages`. 
+
+--
+
+- All
+
+    GitHub + R-universe + (rOpenSci)CRAN/Bioconductor + Zenodo
+
+???
+
+Able to combine them, not mutually-exclusive
+
+---
+
+## Submitting the package
 
 
 ```{r init}
-xaringanExtra::use_webcam()
 ros <- readRDS("output/github_rOpenSci_data__cleaned.RDS")
 cran <- readRDS("output/cran_till_now.RDS")
 bioc <- readRDS("output/submissions_bioconductor.RDS")
@@ -199,11 +491,10 @@ To work with this slides use xaringan::infinite_moon_reader()
 
 ---
 name:projects
-class: center
 
-# Project differences
+### Project differences
 
-
+.center[
 ```{r diff_proj}
 objective <- c("Publication quality and non-trivial",
                "High quality, well documented and interoperable",
@@ -215,7 +506,7 @@ os <- rep("Windows, Unix, iOS", 3)
 R_versions <- c("oldrel, release, patched, devel", "release, devel", "oldrel, release, devel")
 cycle <- c("Always open", "2 annual releases", "Always open")
 editors <- c("0", "0", "~10")
-reviewers <- c("<b>~5</b>", "~10", "Volunteers")
+reviewers <- c("<b>~5 Volunteers</b>", "~10+Volunteers", "Volunteers")
 guides <- c("<a href=https://cran.r-project.org/doc/manuals/r-release/R-exts.html>R-exts</a>", "<a href=https://www.bioconductor.org/developers/package-guidelines>Website</a>", "<a href=https://devguide.ropensci.org/index.html>Book</a>")
 review_system <- c("email & ftp", "Github", "Github")
 links <- c("https://cran.r-project.org/submit.html",
@@ -234,7 +525,9 @@ rownames(df) <- repos
 knitr::kable(t(df), align = "c")
 ```
 
-.middle[Different setup, different review.]
+]
+
+.center[.middle[Different setup, different review.]]
 
 ???
 
@@ -244,11 +537,14 @@ All of them first you need to pass the automatic checks in place before a human 
 Will use data from the three projects but mostly refer to CRAN.
 
 ---
+
 name:submissions
-# Submissions
+
+### Submissions
 
 
-```{r submissions, fig.alt="Three bar plots with new submissions, each bar is a month: on the left CRAN with 9 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 montlhy submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci."}
+```{r submissions}
+#| fig.alt = "Three bar plots with new submissions, each bar is a month: on the left CRAN with 9 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 monthly submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci."
 library("ggplot2")
 library("dplyr")
 library("patchwork")
@@ -299,10 +595,13 @@ Many variability on month
 Also very few data collected from CRAN so far (Also there are some hiccups on CRAN collection, near the end of May the CRON job stopped working for a week. )
 
 ---
-name:organization
-# Organization
 
-```{r cran-holidays, fig.alt="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to May 2021 accounted hourly. Pretest is mainly below 10 packages and newbies aroudn 70. There are saome increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beinning of April."}
+name:organization
+
+### Organization
+
+```{r cran-holidays}
+#| fig.alt = "Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to May 2021 accounted hourly. Pretest is mainly below 10 packages and newbies around 70. There are same increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beginning of April."
 man_colors <- RColorBrewer::brewer.pal(8, "Dark2")
 library("lubridate")
 names(man_colors) <- unique(cran$folder)
@@ -345,10 +644,13 @@ There isn't an explanation from CRAN about how do they work.
 Pretest is resubmission (newer versions of packages) and also for newbies
 
 ---
-name:submission-patterns
-# Submissions patterns
 
-```{r cran-day-month, fig.alt="Two plots with a loess estimation of the number of pacakges on the CRAN's folders newbies and pretest. On the left by day of month: Newbies has some dip at the beginning of the month and around day 20-29 but is around 70 pacakges a day, while pretests is constant around 50 packages each day. On the right plot the same data by day of week: many pacakges at the beginning of the week and fewer on the weekend. Pretest packages fall from 50 to around 30, while newbies drops from 80 to 70."}
+name:submission-patterns
+
+### Submissions patterns
+
+```{r cran-day-month}
+#| fig.alt = "Two plots with a loess estimation of the number of packages on the CRAN's folders newbies and pretest. On the left by day of month: Newbies has some dip at the beginning of the month and around day 20-29 but is around 70 packages a day, while pretests is constant around 50 packages each day. On the right plot the same data by day of week: many packages at the beginning of the week and fewer on the weekend. Pretest packages fall from 50 to around 30, while newbies drops from 80 to 70."
 cran_times <- cran |> 
   mutate(date = as_date(snapshot_time),
          week = week(snapshot_time),
@@ -370,7 +672,7 @@ cran_dmonth <- cran_times |>
             week = unique(week)) |> 
   group_by(folder, mday) |> 
   ggplot() +
-  geom_smooth(aes(mday, packages, col = folder, linetype = folder)) +
+  geom_smooth(aes(mday, packages, col = folder, linetype = folder), method = "loess") +
   labs(x = "Day of month", y = "Packages", col = "Folder", linetype = "Folder",
        title = element_blank()) +
   scale_color_manual(values = man_colors[c("newbies", "pretest")]) +
@@ -385,7 +687,7 @@ cran_dweek <- cran_times |>
             week = unique(week)) |> 
   ungroup() |> 
   ggplot() +
-  geom_smooth(aes(wday, packages, col = folder, linetype = folder)) +
+  geom_smooth(aes(wday, packages, col = folder, linetype = folder), method = "loess") +
   labs(x = "Day of week", y = "Packages", col = "Folder", 
        linetype = "Folder",
        title = element_blank()) +
@@ -401,7 +703,7 @@ cran_dmonth + cran_dweek + plot_layout(guides = 'collect') &
 ```
 
 .center[
-Check [dashboard](https://lockedata.github.io/cransays/articles/dashboard.html) before submitting?
+Check [the dashboard](https://lockedata.github.io/cransays/articles/dashboard.html) before submitting?
 ]
 
 ???
@@ -409,10 +711,13 @@ Check [dashboard](https://lockedata.github.io/cransays/articles/dashboard.html) 
 Submit when you are ready, better on the queue than outside.
 
 ---
+include:false
 name:review-time
-# Review time
 
-```{r cran-review, fig.alt="Histogram of time that a submission is on CRAN's queue. One big histogram from 0 to over 2000 hours, where most there are below 500h and decay in logarithmic pattern. Above it a zoom on the first week, split by 24h till 168h (1 week). Most submissions are less than 24h on the queue."}
+#### Review time
+
+```{r cran-review}
+#| fig.alt = "Histogram of time that a submission is on CRAN's queue. One big histogram from 0 to over 2000 hours, where most there are below 500h and decay in logarithmic pattern. Above it a zoom on the first week, split by 24h till 168h (1 week). Most submissions are less than 24h on the queue."
 library("tidyr")
 submission_folders <- cran_times |>
   group_by(package, resubmission_n, submission_n) |> 
@@ -487,18 +792,22 @@ ggplot(rsubm) +
 
 ---
 
-# Review speed 
+#### Review speed 
 
-```{r cran-submission-time, fig.alt="A plot with the loess estimation of hours for submission on CRAN. One line if the pacakge is new another if it is an update. Updated packages are 5 hours on the queue while new pacakges start from 160 hours dep to 80 before CRAN holidays (end of december and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours."}
+```{r cran-submission-time}
+#| fig.alt = "A plot with the loess estimation of hours for submission on CRAN. One line if the package is new another if it is an update. Updated packages are 5 hours on the queue while new packages start from 160 hours to 80 before CRAN holidays (end of December and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours."
 subm_time <- rsubm |> 
   group_by(package, submission_n) |> 
   summarize(d = as.Date(min(start)),
          new = ifelse(any(newbies != 0), "New", "Update"),
-         h = sum(h), .groups = "drop") |>
+         h = sum(h), .groups = "drop") |> 
+  filter(!d %in% days_holidays) |> 
   group_by(d, new) |> 
   summarize(m = median(h),
-            n = n()) |> 
-  filter(!d %in% days_holidays)
+            s = sum(h),
+            l = unname(quantile(h, 0.25)),
+            h = unname(quantile(h, 0.75)),
+            n = n())
 subm_time |> 
   ggplot() +
   geom_rect(data = holidays, 
@@ -508,7 +817,11 @@ subm_time |>
            family = theme_get()$text[["family"]], 
            size = theme_get()$text[["size"]]/2.5, 
            y = 150, label = "holidays/\nmaintenance") +
-  geom_smooth(aes(d, m, col = new, size = n), span = 0.5) +
+  geom_smooth(aes(d, m, col = new), span = 0.5, method = "loess") +
+  geom_smooth(aes(d, h, col = new), span = 0.5, linetype = "dashed", 
+              se = FALSE, method = "loess") +
+  geom_smooth(aes(d, l, col = new), span = 0.5, linetype = "dashed", 
+              se = FALSE, method = "loess") +
   scale_x_date(date_labels = "%m/%d", breaks = fdates, 
                    expand = expansion()) +
   geom_hline(aes(yintercept = time, col = new), data = . %>% group_by(new) %>% summarise(time = median(m), .groups = "drop"),
@@ -663,9 +976,12 @@ ros_by_issue <- ros_by_issue |>
 ```
 
 
+
 ---
+
 name: users
-# Users role
+
+#### Users role
 
 ```{r bioconductor-reviewers}
 bioc_by_user0 <- bioc |>
@@ -741,7 +1057,8 @@ ros_users_plot <- ros_by_user |>
 ```
 
 
-```{r users-plots, fig.alt="Two plots showing the number of actions done by users and on how many submissions they have done that. On the left for Bioconductor and on the right for rOpenSci. The points size is according to how many users did so, there are two colors and shapes, one for regular users and one for editors (rOpenSci) or reviewers (Bioconductor). Most active people are core people from the project, but there are some regular users involved on many issues and doing many actions too."}
+```{r users-plots}
+#| fig.alt = "Two plots showing the number of actions done by users and on how many submissions they have done that. On the left for Bioconductor and on the right for rOpenSci. The points size is according to how many users did so, there are two colors and shapes, one for regular users and one for editors (rOpenSci) or reviewers (Bioconductor). Most active people are core people from the project, but there are some regular users involved on many issues and doing many actions too."
 pal <- RColorBrewer::brewer.pal(name = "Paired", n = 2)
 man_col_v <- c("#440154FF", "#FF0000")
 (bioc_users_plot + 
@@ -772,9 +1089,10 @@ Omitted bots bioc-issue-bot and ropensci-review-bot (new March 2021).
 
 ---
 
-# Comments
+### Comments
 
-```{r comments, fig.alt="Four plots, in 2 rows and 2 columns, the first column for Bioconductor and the second data from rOpenSci. First row shows comments from reviewers in relation to author's comments (almost linear relation). On the second row other users vs author's comments. Only linear relationship on rOpenSci as this include the reviewers. "}
+```{r comments}
+#| fig.alt = "Four plots, in 2 rows and 2 columns, the first column for Bioconductor and the second data from rOpenSci. First row shows comments from reviewers in relation to author's comments (almost linear relation). On the second row other users vs author's comments. Only linear relationship on rOpenSci as this include the reviewers. "
 bioc_author_reviewer_comments <- bioc_by_issue |> 
   select(id, Approved, comments, 
          reviewer_comments, author_comments, bot_comments) |> 
@@ -830,9 +1148,10 @@ Non reviewers users on bioconductor still chime in to help.
 ---
 name:bot
 
-# Bot role
+### Bot role
 
-```{r bioc-issue-bot, fig.alt="Tile plot with rows showing different message from bioc-issue-bot and columns being each issue for Bioconductor. The tile is colored by the number of times each bot posted the message. The plot shows how the bot changed with time and which are the most common feedback provided (in order of more feedback given): Build results, valid push, received, accepted, reviewer assigned. And common errors: missing repository, repost, fix version, closing issue, lacking ssh key, multiple repositories detected..."}
+```{r bioc-issue-bot}
+#| fig.alt = "Tile plot with rows showing different message from bioc-issue-bot and columns being each issue for Bioconductor. The tile is colored by the number of times each bot posted the message. The plot shows how the bot changed with time and which are the most common feedback provided (in order of more feedback given): Build results, valid push, received, accepted, reviewer assigned. And common errors: missing repository, repost, fix version, closing issue, lacking ssh key, multiple repositories detected..."
 library("stringr")
 bioc_bot <- bioc |> 
   ungroup() |> 
@@ -878,12 +1197,14 @@ It can be changed/adapted to change in requirements or errors.
 rOpenSci is going to have a bot too [ropensci-review-bot](https://github.com/ropensci-review-bot/). 
 
 ---
+
 exclude: true
 name: labels
 
-# Labels
+### Labels
 
-```{r labels, fig.alt="Two tile plots showing labels related to the review process on the vertical axis and issues on the horitzontal axis. On the left Bioconductor and on the right rOpenSci. Bioconductor show many accepted packages few declined and more inactive issues. rOpenSci plot shows more labels which allow to better know the state of the review."}
+```{r labels}
+#| fig.alt = "Two tile plots showing labels related to the review process on the vertical axis and issues on the horitzontal axis. On the left Bioconductor and on the right rOpenSci. Bioconductor show many accepted packages few declined and more inactive issues. rOpenSci plot shows more labels which allow to better know the state of the review."
 bioc_relative <- bioc |> 
   ungroup() |> 
   nest_by(id, .keep = FALSE) |> 
@@ -966,10 +1287,12 @@ On bioconductor most problems with the submissions are not the package itself bu
 rOpenSci provides more detailed questioning for scope of a package.
 
 ---
-name:success-submissions
-# Success submissions
 
-```{r cran_success, fig.alt="On the left a bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of pacakges. The bars are colored by if they are accepted or not. It is also split by new packages and updated pacakges. More new pacakges are not accepted on the first try than updates, but on resubmissions they are accepted. The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2021/06. Two lines with one for new submissions which shows a consistend rate around 81% and package updates is between 85% and 95% (until the time series get to close for the review to be finished)."}
+name:success-submissions
+## Success submissions
+
+```{r cran_success}
+#| fig.alt = "On the left a bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of packages. The bars are colored by if they are accepted or not. It is also split by new packages and updated packages. More new packages are not accepted on the first try than updates, but on resubmissions they are accepted. The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2021/06. Two lines with one for new submissions which shows a consistent rate around 81% and package updates is between 85% and 95% (until the time series get to close for the review to be finished)."
 approval_dates <- function(start, end, package, li) {
   dates <- li[[package]]
   dates <- dates[!is.na(dates)] # Too old packages don't have date
@@ -998,29 +1321,13 @@ ap <-  ap0 |>
   ungroup() |> 
   mutate(submission_n = fct_relevel(as.factor(submission_n), as.character(1:10)))
 success_submissions <- ggplot(ap) + 
-  geom_col(aes(x = submission_n, y = n, fill = Accepted)) +
-  labs(x = "Submissions", y = "Packages") +
+  geom_col(aes(x = submission_n, y = n, fill = logic2string(Accepted))) +
+  labs(x = "Submissions", y = "Packages", fill = "Accepted") +
   facet_wrap(~new, scales = "free_x") +
   scale_y_continuous(expand = expansion()) +
   scale_x_discrete(expand = expansion()) +
   scale_fill_viridis_d()
-success_dates <- ap0 |> 
-  group_by(submission = lubridate::floor_date(start, "day"), new) |>
-  count(Accepted = !is.na(accepted)) |> 
-  mutate(perc = n/sum(n)) |> 
-  ungroup() |> 
-  filter(Accepted) |> 
-  ggplot() + 
-  geom_smooth(aes(submission, perc, linetype = new), span = 0.5) +
-  scale_y_continuous(expand = expansion(), labels = scales::percent) +
-  scale_x_datetime(date_labels = "%y/%m", date_breaks = "1 month", 
-                   expand = expansion()) +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1),
-        legend.position = c(0.2, 0.4)) +
-  labs(col = "Submission", title = "Acceptance rate", x = element_blank(),
-       linetype = "Submission", y = element_blank())
-	
-success_submissions + success_dates
+success_submissions
 ```
 
 .bottom[.center[High approval rates!!]]
@@ -1029,7 +1336,7 @@ success_submissions + success_dates
 
 Bioconductor & rOpenSci 50%, some submissions are abandoned or do not fit the project.
 Different problems faced by new packages and older ones. 
-More indeepth review requires 1 month for each reviewer. 
+More in depth review requires 1 month for each reviewer. 
 
 ```{r subm_timeline}
 ap |> 
@@ -1081,14 +1388,40 @@ res |>
 
 
 ---
+
+## Success submissions II
+
+```{r success_rate}
+success_dates <- ap0 |> 
+  group_by(submission = lubridate::floor_date(start, "day"), new) |>
+  count(Accepted = !is.na(accepted)) |> 
+  mutate(perc = n/sum(n)) |> 
+  ungroup() |> 
+  filter(Accepted) |> 
+  ggplot() + 
+  geom_smooth(aes(submission, perc, linetype = new), span = 0.5, method = "loess") +
+  scale_y_continuous(expand = expansion(), labels = scales::percent) +
+  scale_x_datetime(date_labels = "%y/%m", date_breaks = "1 month", 
+                   expand = expansion()) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = c(0.2, 0.6)) +
+  labs(col = "Submission", title = "Acceptance rate", x = element_blank(),
+       linetype = "Submission", y = element_blank())
+success_dates
+```
+
+.center[High acceptance rates]
+
+---
+
 name:submit
-# Submit!
 
+## Submit!
 
-.pull-left[
-
+.center[
 .tip-submission[
-Prepare
+.left[
+__Prepare__]
 .center[
  
   Manual to [create R packages](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Creating-R-packages), [R Packages](https://r-pkgs.org/)  
@@ -1109,113 +1442,179 @@ Prepare
 .right[(Re)***Submit***]
 .center[[Fix and explain](https://cran.r-project.org/web/packages/policies.html#Re_002dsubmission) on re-submission.]
 ]
-
 ]
+
+
 ???
 
 Follow the detailed guidelines from Bioconductor and rOpenSci.
-Fix any problem that you haven't detected previously (double check the policy on CRAN). 
+Fix any problem that you haven't detected previously (double check the [CRAN repository policy](https://cran.r-project.org/web/packages/policies.html)). 
 Resubmit
+
+---
+class: bold-last-item
+name:maintaining-packages
+# Maintaining packages
+
+- Keep up to date
+
+    Changes on R code, changes on dependencies, changes on CRAN checks.
+    
+???
+
+Not in your hands to control
+
+--
+
+- Change code of the package
+
+    Evaluate how to adapt your package
+    
+???
+
+Better quality => Less work
+
+--
+
+- New releases
+
+    Provide new releases
+
+???
+
+Check also your dependencies be mindful to users
+
+---
+class: bold-last-item
+## Changing the package
+
+.pull-left[
+**New features**
+
+Whenever you want
+
+.minor[.minor[On Bioconductor only after each release]]
+]
+
+???
+
+Be mindful that you now "need" to support this.
+
+--
+
+
+.pull-right[
+**Deprecating features/breaking changes**
+
+- Notify users: NEWS, warnings , deprecate via [`.Deprecated`](https://search.r-project.org/R/refmans/base/html/Deprecated.html "Help page of .Deprecated")
+]
+
+--
+.pull-right[
+- And later on defunct via [`.defunct`](https://search.r-project.org/R/refmans/base/html/Defunct.html, "Help page of .Defunct")
+]
 
 --
 
 .pull-right[
 
-.center[
-# Thanks
-
-R core and CRAN team,
-Bioconductor core, 
-rOpenSci editors and reviewers
-]
+- If you have dependencies: notify with at least 1 month before submitting
 
 ]
 
 ???
 
-Thank also to the package authors (mainly tidyverse, ggplot2 and rhub, and gh).
-Maëlle Salmon and Stephanie Locke for the dashboard.
-rOpenSci review: [Video](https://www.youtube.com/watch?v=iJnn_9xKkqk)
-
-
----
-# Maintaining the package
-
-Better quality => Less work
-
-Iteration process
-
-.pull-left[
-## New features
-
-Whenever you want
-<sup>(On Bioconductor only after each release)</sup>
-]
-
-.pull-right[
-## Deprecating features/breaking changes
-
-Notify users: NEWS, warnings, [`deprecate`](https://search.r-project.org/R/refmans/base/html/Deprecated.html "Help page of .Deprecated")
-
-And later on [defunct](https://search.r-project.org/R/refmans/base/html/Defunct.html, "Help page of .Defunct"):  
-
-If you have dependencies: notify with at least 1 month before submitting
-
-
-
-]
+Deprecate and defunct are important steps to notify users.  
+Be mindful also to other developers that depend on your package: give them time, hear their concerns...
 
 ---
 
-# Keep checks clean
+## Keep checks clean
 
-```{r}
+
+```{r checks, cache=FALSE}
+cpr <- tools::CRAN_check_results()
+
+man_colors <- c("OK" = "green", "NOTE" = "darkgreen", 
+                "WARNING" = "yellow", "ERROR" = "red", "FAILURE" = "black")
+cpr |> 
+  group_by(Package) |> 
+  filter(n_distinct(Version) == 1) |> 
+  ungroup() |> 
+  group_by(Flavor) |> 
+  count(Status, name = "packages") |> 
+  mutate(perc = packages/sum(packages),
+         Status = forcats::fct_relevel(Status, names(man_colors))) |> 
+  ggplot() + 
+  geom_col(aes(perc, Flavor, fill = Status)) +
+  scale_x_continuous(expand = expansion(), labels = scales::percent_format()) +
+  scale_fill_manual(values = man_colors) +
+  labs(title = "Packages check status", x = element_blank())
+```
+
+.center[Most packages are in good shape.]
+
+---
+
+```{r download-archived, cache = FALSE}
 url <- "https://cran.r-project.org/src/contrib/PACKAGES.in"
 con <- url(url)
 file <- read.dcf(con) |> 
   as.data.frame()
-```
-
-```{r extract}
-proto <- data.frame(action = character(), date = Sys.Date()[0], reason = character())
-regex <- "^([[:alpha:]]+) \\w+ ([0-9]{4}-[0-9]{2}-[0-9]{2}) \\w+ (.+)"
+# Extract multiline comments
 comments_l <- lapply(file$`X-CRAN-Comment`, function(x) {
   unlist(strsplit(x, "[\n]+"), FALSE, FALSE)
 })
 comments_c <- unlist(comments_l)
-comments_df <- cbind(Package = rep(file$Package, lengths(comments_l)), 
-           strcapture(pattern = regex, x = comments_c, proto = proto))
+check_date <- function(ch){
+  grepl(pattern = "([0-9]{4}-[0-9]{2}-[0-9]{2})", x = ch)
+}
+
+dates_comments <- check_date(comments_c)
+df <- data.frame(package = rep(file$Package, lengths(comments_l)),
+           comment = comments_c)
+regex_date <- "([0-9]{4}-[0-9]{2}-[0-9]{2})"
+regex_action <- "([Uu]narchived?|[Aa]rchived?|[Rr]enamed?|[Oo]rphaned?|[Rr]eplaced?|[Rr]emoved?)"
+comments_df <- cbind(df, 
+           strcapture(pattern = regex_date, x = df$comment, 
+                      proto = data.frame(date = Sys.Date()[0])),
+           strcapture(pattern = regex_action, x = df$comment,
+                      proto = data.frame(action = character()))
+           ) |> 
+  filter(!is.na(comment)) |> 
+  mutate(action = tolower(action))
+# Check that count(comments_df, !is.na(date), !is.na(action), sort = TRUE) makes sense
+# Handle rolled and no keyword used
+
+# Handle CRAN-history
 history_l <- lapply(file$`X-CRAN-History`, function(x) {
   unlist(strsplit(x, "[\n]+"), FALSE, FALSE)
 })
 history_c <- unlist(history_l)
-history_df <- cbind(Package = rep(file$Package, lengths(history_l)), 
-           strcapture(pattern = regex, x = history_c, proto = proto))
-regex2 <- "Versions? .+ (\\w+) \\w+ ([0-9]{4}-[0-9]{2}-[0-9]{2}) ?\\w+ (.+)"
-history_df2 <- cbind(Package = rep(file$Package, lengths(history_l)), 
-           strcapture(pattern = regex2, x = history_c, proto = proto))
-comments_df2 <- cbind(Package = rep(file$Package, lengths(comments_l)), 
-           strcapture(pattern = regex2, x = comments_c, proto = proto))
-regex3 <- "Versions? .+ (\\w+) \\w+ ([0-9]{4}-[0-9]{2}-[0-9]{2}) ?\\w+ (.+)"
-history_df3 <- cbind(Package = rep(file$Package, lengths(history_l)), 
-           strcapture(pattern = regex3, x = history_c, proto = proto))
-comments_df3 <- cbind(Package = rep(file$Package, lengths(comments_l)), 
-           strcapture(pattern = regex3, x = comments_c, proto = proto))
-history <- rbind(comments_df, history_df,
-                 comments_df2, history_df2,
-                 comments_df3, history_df3) |> 
-  filter(!is.na(action)) |> 
-  mutate(action = tolower(action),
-         action = gsub(pattern = "e$", replacement = "ed", action)) |> 
-  arrange(Package)
+
+history_df <- data.frame(package = rep(file$Package, lengths(history_l)),
+                    comment = history_c) |> 
+  filter(!is.na(comment))
+
+history_df <- cbind(history_df,
+                    strcapture(pattern = regex_date, x = history_df$comment, 
+                               proto = data.frame(date = Sys.Date()[0])),
+                    strcapture(pattern = regex_action, x = history_df$comment,
+                               proto = data.frame(action = character()))
+           ) |> 
+  mutate(action = tolower(action))
+
+history <- rbind(comments_df, history_df) |> 
+  mutate(action = gsub(pattern = "e$", replacement = "ed", action)) |> 
+  arrange(package)
 ```
 
 
-# Be responsive
+## Be responsive
 
 ```{r plots_archiving}
 history |>  
-  filter(action != "cran") |> 
+  filter(!is.na(date)) |> 
   group_by(action, month = as.Date(format(date, "%Y-%m-15"))) |> 
   summarise(n = n()) |> 
   ungroup() |> 
@@ -1230,70 +1629,138 @@ history |>
   theme(legend.position = c(0.2, 0.7), text = element_text(size = 15))
 ```
 
+
+.center[Packages might be archived from repositories]
+
 ---
+
+## Common reasons of archiving:
 
 ```{r reasons}
 hist_expand <- history |> 
   filter(!is.na(date)) |> 
-  mutate(not_corrected = grepl("not correct", reason, fixed = TRUE),
-         request = grepl("request", reason, fixed = TRUE),
-         maintainer = grepl("maintainer", reason, fixed = TRUE),
-         request_maintainer =  maintainer & request & grepl("from", reason, fixed = TRUE),
-         request_author = grepl("author", reason, fixed = TRUE) & request,
-         reminders = grepl("reminders", reason, fixed = TRUE),
-         install = grepl("install", reason, fixed = TRUE),
-         email = grepl("email", reason, fixed = TRUE),
-         email_error = email & grepl("undeliverable|bounce[sd]?|returned|rejected|refused", reason),
-         depends = grepl("depends", reason, fixed = TRUE),
-         unresponsive_maintainer = grepl("uncontactable|unresponsive", reason) & maintainer,
-         check = grepl("check", reason, fixed = TRUE),
-         licence = grepl("licen[cs]e", reason),
-         update = grepl("updated?", reason),
-         required = grepl("require[sd]?", reason),
-         policy = grepl("policy violation", reason, fixed = TRUE),
-         archived = grepl("archived?", reason),
-         authorship = grepl("authorship", reason, fixed = TRUE),
-         depends_archived = depends & archived,
+  mutate(not_corrected = grepl("not correct", comment, fixed = TRUE),
+         request = grepl("request", comment, fixed = TRUE),
+         maintainer = grepl("maintainer", comment, fixed = TRUE),
+         request_maintainer =  maintainer & request & grepl("from", comment, fixed = TRUE),
+         request_author = grepl("author", comment, fixed = TRUE) & request,
+         reminders = grepl("reminders", comment, fixed = TRUE),
+         install = grepl("install", comment, fixed = TRUE),
+         email = grepl("email", comment, fixed = TRUE),
+         email_error = email & grepl("undeliverable|bounce[sd]?|returned|rejected|refused", comment),
+         unresponsive_maintainer = grepl("uncontactable|unresponsive", comment) & maintainer,
+         check = grepl("check", comment, fixed = TRUE),
+         licence = grepl("licen[cs]e", comment),
+         update = grepl("updated?", comment),
+         required = grepl("require[sd]?", comment),
+         policy = grepl("policy violation", comment, fixed = TRUE),
+         authorship = grepl("authorship", comment, fixed = TRUE),
+         depends_archived = grepl("depends?", comment) & grepl("archived?", comment),
          )
 ```
 
 ```{r reasons_top}
+archived_packages <- history |> 
+  group_by(package) |> 
+  filter(!is.na(date) & action == "archived") |> 
+  pull(package) |> 
+  unique()
+
 counts <- hist_expand |> 
-  filter(action == "archived") |> 
-  select(-Package, -action, -date, -reason) |> 
+  filter(package %in% archived_packages,
+         action != "unarchived") |> 
+  select(-package, -action, -date, -comment) |> 
   colSums()
 counts2 <- data.frame(type = names(counts), events = unname(counts)) |> 
   filter(!type %in% c("email", "request", "maintainer")) |> 
   arrange(-events)
 library("ComplexUpset")
 hist_expand |> 
-  filter(action == "archived") |> 
-  upset(intersect = colnames(hist_expand)[-c(1:4)],
+  filter(package %in% archived_packages,
+         action != "unarchived") |> 
+  upset(intersect = c("not_corrected", "check", "reminders", "maintainer", "request", "policy", "depends_archived", "email_error"),
         min_size = 100)
 ```
 
+.center[Check email!]
+
 ---
 
-# Keep calm
+## Archived?
 
 .pull-left[
-![Meme keep calm and carry on](images/keep-calm-and-carry-on-original.jpg)
+
+![:scale 60% "Meme image of keep calm and carry on"](images/keep-calm-and-carry-on-original.jpg)
 ]
 
 .pull-right[
-```{r back_to_cran}
-ap <- available.packages()
+
+Understand why happened.
+
+Fix and resubmit (Your package will need to pass the new package checks again.)
+
+.middle[
+
+```{r back_to_cran, cache = FALSE}
+download.file("https://cran.r-project.org/web/packages/packages.rds", 
+              destfile = "packages.RDS") 
+ap <- as.data.frame(readRDS("packages.RDS"))
+ap <- distinct(ap, Package, .keep_all = TRUE)
+rownames(ap) <- ap$Package
+replaced <- file$Package[!is.na(file$Replaced_by)]
+pkg_event <- hist_expand |> 
+  filter(action == "archived" & !request_maintainer,
+         !package %in% replaced) |> 
+  count(package, sort = TRUE, name = "Events")
 pkg_event |> 
-  mutate(CRAN = logic2string(Package %in% rownames(ap))) |> 
+  mutate(CRAN = logic2string(package %in% rownames(ap))) |> 
   group_by(CRAN) |> 
   count(name = "Packages") |>
   ungroup() |> 
-  mutate(Proportion = scales::percent(Packages/sum(Packages)))
+  mutate(Proportion = scales::percent(Packages/sum(Packages))) |> 
+  knitr::kable()
 ```
+
 ]
-.center[Most packages even if they are archived they return to CRAN]
+]
+
+.center[  
+Most archived packages return to CRAN.]
 
 ---
 
-# Conclusions
+# Summary
 
+- `r emo::ji("construction")` Creating a package is easy.
+
+- `r emo::ji("package")` Releasing a package is doable.
+
+- `r emo::ji("gear")` Maintaining the high standards is not.
+
+--
+
+.middle[.center[
+
+Thanks to the R core team past and current members.
+
+Thanks to the CRAN, Bioconductor, rOpenSci teams.
+
+All the contributors to packages used to make this presentation.
+
+]]
+
+--
+
+.middle[.center[
+
+**To you!**
+
+]]
+
+
+???
+
+Thank also to the package authors (mainly tidyverse, ggplot2 and rhub, and gh).
+Maëlle Salmon and Stephanie Locke for the CRAN dashboard.
+And the organization.
+rOpenSci review: [Video](https://www.youtube.com/watch?v=iJnn_9xKkqk)

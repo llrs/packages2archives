@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Releasing packages to archives</title>
+    <title>Releasing packages</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Lluís Revilla Sancho     Slides:  " />
+    <meta name="author" content="Lluís Revilla Sancho" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
@@ -11,15 +11,8 @@
     <script src="libs/freezeframe/freezeframe.min.js"></script>
     <script src="libs/xaringanExtra-freezeframe/freezeframe-init.js"></script>
     <script id="xaringanExtra-freezeframe-options" type="application/json">{"selector":"img[src$=\"gif\"]","trigger":"click","overlay":false,"responsive":true,"warnings":true}</script>
-    <script src="libs/clipboard/clipboard.min.js"></script>
-    <link href="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-clipboard/xaringanExtra-clipboard.js"></script>
-    <script>window.xaringanExtraClipboard(null, {"button":"Copy Code","success":"Copied!","error":"Press Ctrl+C to Copy"})</script>
-    <script src="libs/js-cookie/js.cookie.js"></script>
-    <script src="libs/peerjs/peerjs.min.js"></script>
-    <script src="libs/tiny.toast/toast.min.js"></script>
-    <link href="libs/xaringanExtra-broadcast/broadcast.css" rel="stylesheet" />
-    <script src="libs/xaringanExtra-broadcast/broadcast.js"></script>
+    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
+    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
     <meta name="github-repo" content="llrs/packages2archives"/>
     <meta name="twitter:title" content="Releasing packages to archives"/>
     <meta name="twitter:description" content="Slides for the For R User Group Gahna on their 3rd aniversary."/>
@@ -37,44 +30,146 @@
     <meta property="og:type" content="website"/>
     <meta property="og:locale" content="en_US"/>
     <meta property="article:author" content="Lluís Revilla Sancho"/>
-    <script src="libs/xaringanExtra-webcam/webcam.js"></script>
-    <script id="xaringanExtra-webcam-options" type="application/json">{"width":"200","height":"200","margin":"1em"}</script>
     <link rel="stylesheet" href="css/my-theme.css" type="text/css" />
   </head>
   <body>
     <textarea id="source">
-class: center, middle, inverse, title-slide
 
-# Releasing packages to archives
-### <a href="https://llrs.dev">Lluís Revilla Sancho</a> <a href="https://twitter.com/Lluis_Revilla"><svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></a> <br> <a href="https://ghana.llrs.dev">Slides:</a> <a href="https://github.com/llrs/"><svg viewBox="0 0 496 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"> <path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg></a>
-### IDIBAPS, CIBEREHD
-### 2022/01/16 <sup><sub>(updated: 2021-12-28)</sub></sup>
+
+
+
+
+
+
+
+
+
+
+layout: true
+
+&lt;div class="my-footer"&gt;
+&lt;a id="link" href="packages2archives.llrs.dev" style="position:absolute; left:2.5%"&gt;
+packages2archives.llrs.dev&lt;/a&gt;
+&lt;a href="https://twitter.com/Lluis_Revilla" style="position:absolute; left:45%"&gt; Lluis_Revilla &lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;" xmlns="http://www.w3.org/2000/svg"&gt;
+  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;
+&lt;/svg&gt;&lt;/a&gt;&lt;/div&gt;  
+
+---
+name: title-slide
+class: center, middle
+
+# Releasing packages
+
+**For R User Group Ghana on their 3rd anniversary**
+
+[Lluís Revilla Sancho](https://llrs.dev)  
+[IDIBAPS](https://www.clinicbarcelona.org/en/idibaps), [CIBEREHD](https://www.ciberehd.org/en)
+
+
+2022/01/16
+
+
+.minor[.minor[(updated: 2022-01-09 )]]
 
 ---
 
+name:index
+class: bold-last-item
+
+# Index
 
 
+ - [Creating good packages](#good-packages).
+ 
+???
 
+Mainly based on the [previous workshop](https://llrs.dev/talk/workshop-creating-packages/) for this user group.
 
+--
 
+ - [Releasing packages](#release-packages).
+ 
+???
 
+Mainly based on the [useR!2021 talk](https://llrs.dev/talk/user-2021/)
 
+--
 
+ - [Maintaining packages.](#maintaining-packages)
+ 
 
 ???
 
-Image credit: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Sharingan_triple.svg)
+Mainly based on the [archived packages files.](https://llrs.dev/post/2021/12/07/reasons-cran-archivals/)
 
 ---
-
+name:good-packages
+class: bold-last-item
 # Creating good packages
 
-Workshops and material
+&gt; Packages provide a mechanism for loading optional code, data and documentation as needed.
+
+
+--
+
+- Code
+
+???
+
+Most common usage
+
+--
+
+- Data
+
+???
+
+Less used due to restrictions on size on CRAN
+
+--
+
+- Documentation
+
+???
+
+In my opinion the most important aspect.
+
+---
+name:resources
+
+## Resources 
+
+- **[R extensions](https://cran.r-project.org/doc/manuals/r-release/R-exts.html "Offical complete instructions")**: Official documentation, everything is answered here
+- **[R packages](https://r-pkgs.org/ "R packages")**: A book more digestible and using other packages and tools to create packages.
+- [Package primer](https://kbroman.org/pkg_primer/ "R package primer a minimal tutorial"): Website explaining different aspects of creating a package.
+- [Creating R packages from scratch](https://hilaryparker.com/2014/04/29/writing-an-r-package-from-scratch/ "Creating a cats package"): Very easy to follow blog post.
+- [Updated version by Tomas Westlake](https://r-mageddon.netlify.app/post/writing-an-r-package-from-scratch/ "Creating a cats package with usethis"): Similar to the post above but with more modern tools.
+- **[rOpenSci](https://devguide.ropensci.org/)**: A book  about writing packages and maintaining them on good shape.
+- [Video](https://www.youtube.com/watch?v=IlWMkz769B4) with a similar workshop showing live the code used. 
+
+**Many resources!**
+
+--
+
+.center[
+
+You can also find help online (always check the etiquette)
+- Asking your local community: R User Group Ghana
+- [Asking on Twitter #rstats](https://www.t4rstats.com/)
+- [Asking on Stack Overflow](https://stackoverflow.com/questions/5963269)
+- [Asking on Rstudio forum](https://community.rstudio.com/)
+
+]
+???
+
+Resources used to create this workshop
+
+[Maëlle post](https://masalmon.eu/2017/12/11/goodrpackages/): how to write good packages is also recommended.
 
 
 ---
 
-## Example
+## Structure
 
 .left-column[
 
@@ -83,40 +178,219 @@ Workshops and material
 ]
 
 .right-column[
-- `.github` folder: Files specific to GitHub (this isn't necessary/[Advanced content](#advanced))
-- A `R` folder with [*.R files](#r-files): your code.
-- A `man` folder with [*.rd files](#rd-files): your documentation.
-- A `tests` folder: [Check the code](#tests) of the package.
-- A [`vignette` folder](#vignettes): Long documentation; not just examples.
+- `.github` folder: Files specific to GitHub (this isn't necessary/[Advanced content](https://ghana.llrs.dev/#advanced))
+- A __`R` folder with [*.R files](https://ghana.llrs.dev/#r-files)__: your code.
+- A `man` folder with [*.rd files](https://ghana.llrs.dev/#rd-files): your documentation.
+- A `tests` folder: [Check the code](https://ghana.llrs.dev/#tests) of the package.
+- A [`vignette` folder](https://ghana.llrs.dev/#vignettes): Long documentation; not just examples.
 - A `.Rbuildignore`: A file describing what to omit when building the package.
-- A [`DESCRIPTION` file](#description): Summary and description of the package.
-- A [`LICENSE` file](#licenses): The conditions under the package is released.
-- A [`NAMESPACE` file](#namespace): What this package shares and needs.
-- A [`NEWS` file](#news): What has changed since last release.
-- A [`README`](#readme): How to install and why this packages is needed and some basic examples.
+- A __[`DESCRIPTION` file](https://ghana.llrs.dev/#description)__: Summary and description of the package.
+- A [`LICENSE` file](https://ghana.llrs.dev/#licenses): The conditions under the package is released.
+- A __[`NAMESPACE` file](https://ghana.llrs.dev/#namespace)__: What this package shares and needs.
+- A [`NEWS` file](https://ghana.llrs.dev/#news): What has changed since last release.
+- A [`README`](https://ghana.llrs.dev/#readme): How to install and why this packages is needed and some basic examples.
+]
+
+---
+name: description
+
+## DESCRIPTION
+
+.pull-left[
+
+```
+Package: my_package
+Title: Short Descriptiono in Title Case
+Version: 0.0.9000
+Authors@R: c(person(given = "Name",
+             role = c("aut", "cre", "cph"),
+             email = "my@email.com"),
+             ...)
+Description: A long description of the package
+License: MIT + file LICENSE
+Depends: 
+    R (&gt;= 4.1.2)
+Imports: 
+    methods
+Suggests: 
+    covr,
+    knitr
+VignetteBuilder: 
+    knitr
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+```
+]
+
+???
+Name of the package, description of the package, maintainer, relationships with other packages...
+Language does not need to be on English, it can be in other languages
+
+--
+
+.pull-right[
+
+**Package**: Name (ASCII characters and . and -).  
+**Title**: Short description.
+**Version**: At least two numbers.  
+**`Authors@R`**: Information with an author (auth) and maintainer (cre).  
+**Description**: Longer description.  
+**License**: Information about the copyright.  
+**Depends**: Packages needed without which the package doesn't work.  
+**Imports**: Packages used.  
+**Suggests**: Packages used on examples or vignettes.  
+**VignetteBuilder**: How to build the vignette.  
+Other optional fields:
+- **URL**: Link to the source code, and webpages.
+- **BugReports**: Link to where to report issues.
+- **Encoding**: ASCII or UTF-8.
+- ...
+
 ]
 
 
-
----
-# Choosing the right archive/repository
-
-##  Repository
-
-Git repository vs ropensci
-
-## Archive
-
-CRAN/Bioconductor vs Zenodo
-
-## All
-
-R-universe + CRAN/Bioconductor
-
 ---
 
-# Submitting the package
+## R files
 
+1. Only valid R code: functions, objects, environments that don't depend on previous code executed. 
+
+2. If a function uses a function of an other package use `package::function`
+
+    3. Add that package to the appropriate site on [Description](#description)
+    
+    4. add a `#' @importFrom package function` (See next slide)
+
+```r
+meow &lt;- function() {
+    message("meow")
+}
+```
+
+---
+name: namespace
+## NAMESPACE
+
+Import code of other packages and export code of your package:
+
+```r
+import(dplyr)
+importFrom(methods, is)
+export(meow)
+```
+
+???
+
+This can be done manually no need to do it via other tools  (but recommended)
+
+--
+
+If using [roxygen2](https://cran.r-project.org/package=roxygen2) you can use:
+
+```r
+#' @import dplyr
+#' @importFrom methods is
+is_meow &lt;- function(x){
+    methods(x, "meow")
+}
+#' @export # To make it available to others
+meow &lt;- function() {
+    message("meow")
+} 
+```
+
+Which will be written to the NAMESPACE file when [updating the documentation](#rd-files)
+
+???
+Important file!
+
+---
+name: rd-files
+
+## Function documentation
+
+.pull-left[
+Using roxygen2:
+
+```r
+#' Check if it is a meow
+#'
+#' Check if object is of class meow.
+#' @param x A character string.
+#'
+#' @return A logical value with either TRUE or FALSE if the object is a meow.
+#' @export
+#' @examples
+#' is_meow("hi")
+#' @importFrom methods is
+is_meow &lt;- function(x){
+    methods(x, "meow")
+}
+```
+]
+
+.pull-right[
+Convert this specials comments into *.Rd files with:
+
+```r
+document()
+```
+]
+
+???
+
+In Rstudio you can insert the skeleton with &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;R&lt;/kbd&gt; .
+In Rstudio you can convert the special comments into documentation with &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;D&lt;/kbd&gt; .
+
+---
+name: release-packages
+# Releasing the package
+
+???
+
+What does it mean?
+
+What are the expectations?
+
+---
+class: bold-last-item
+## Choosing the right archive/repository
+
+- Repository
+
+    Git repository ⚔️ svn, or none
+
+???
+
+Repositories keep versions of code
+
+--
+
+- Archive
+
+    CRAN/Bioconductor ⚔️ Zenodo
+
+???
+
+Archive do not delete content (normally)
+Keep versions "released". 
+Only CRAN, Bioconductor and additional repositories like [r-universe](https://r-universe.org), [drat](https://cran.r-project.org/package=drat), ... work via `install.packages`. 
+
+--
+
+- All
+
+    GitHub + R-universe + (rOpenSci)CRAN/Bioconductor + Zenodo
+
+???
+
+Able to combine them, not mutually-exclusive
+
+---
+
+## Submitting the package
 
 
 
@@ -156,11 +430,10 @@ To work with this slides use xaringan::infinite_moon_reader()
 
 ---
 name:projects
-class: center
 
-# Project differences
+### Project differences
 
-
+.center[
 
 |          |                                      CRAN                                       |                                  Bioconductor                                  |                                rOpenSci                                |
 |:---------|:-------------------------------------------------------------------------------:|:------------------------------------------------------------------------------:|:----------------------------------------------------------------------:|
@@ -173,9 +446,11 @@ class: center
 |Versions  |                         oldrel, release, patched, devel                         |                                 release, devel                                 |                         oldrel, release, devel                         |
 |Cycle     |                                   Always open                                   |                               2 annual releases                                |                              Always open                               |
 |Editors   |                                        0                                        |                                       0                                        |                                  ~10                                   |
-|Reviewers |                                    &lt;b&gt;~5&lt;/b&gt;                                    |                                      ~10                                       |                               Volunteers                               |
+|Reviewers |                              &lt;b&gt;~5 Volunteers&lt;/b&gt;                               |                                 ~10+Volunteers                                 |                               Volunteers                               |
 
-.middle[Different setup, different review.]
+]
+
+.center[.middle[Different setup, different review.]]
 
 ???
 
@@ -185,11 +460,13 @@ All of them first you need to pass the automatic checks in place before a human 
 Will use data from the three projects but mostly refer to CRAN.
 
 ---
+
 name:submissions
-# Submissions
+
+### Submissions
 
 
-&lt;img src="index_files/figure-html/submissions-1.png" title="Three bar plots with new submissions, each bar is a month: on the left CRAN with 9 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 montlhy submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci." alt="Three bar plots with new submissions, each bar is a month: on the left CRAN with 9 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 montlhy submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci." width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/submissions-1.png" title="Three bar plots with new submissions, each bar is a month: on the left CRAN with 9 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 monthly submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci." alt="Three bar plots with new submissions, each bar is a month: on the left CRAN with 9 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 monthly submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci." width="1080" style="display: block; margin: auto;" /&gt;
 
 
 .center[
@@ -204,10 +481,12 @@ Many variability on month
 Also very few data collected from CRAN so far (Also there are some hiccups on CRAN collection, near the end of May the CRON job stopped working for a week. )
 
 ---
-name:organization
-# Organization
 
-&lt;img src="index_files/figure-html/cran-holidays-1.png" title="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to May 2021 accounted hourly. Pretest is mainly below 10 packages and newbies aroudn 70. There are saome increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beinning of April." alt="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to May 2021 accounted hourly. Pretest is mainly below 10 packages and newbies aroudn 70. There are saome increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beinning of April." width="1080" style="display: block; margin: auto;" /&gt;
+name:organization
+
+### Organization
+
+&lt;img src="index_files/figure-html/cran-holidays-1.png" title="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to May 2021 accounted hourly. Pretest is mainly below 10 packages and newbies around 70. There are same increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beginning of April." alt="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to May 2021 accounted hourly. Pretest is mainly below 10 packages and newbies around 70. There are same increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beginning of April." width="1080" style="display: block; margin: auto;" /&gt;
 
 .center[
 Packages are moved by reviewers [between folders](https://llrs.dev/2021/01/cran-review/#cran-load).
@@ -220,13 +499,15 @@ There isn't an explanation from CRAN about how do they work.
 Pretest is resubmission (newer versions of packages) and also for newbies
 
 ---
-name:submission-patterns
-# Submissions patterns
 
-&lt;img src="index_files/figure-html/cran-day-month-1.png" title="Two plots with a loess estimation of the number of pacakges on the CRAN's folders newbies and pretest. On the left by day of month: Newbies has some dip at the beginning of the month and around day 20-29 but is around 70 pacakges a day, while pretests is constant around 50 packages each day. On the right plot the same data by day of week: many pacakges at the beginning of the week and fewer on the weekend. Pretest packages fall from 50 to around 30, while newbies drops from 80 to 70." alt="Two plots with a loess estimation of the number of pacakges on the CRAN's folders newbies and pretest. On the left by day of month: Newbies has some dip at the beginning of the month and around day 20-29 but is around 70 pacakges a day, while pretests is constant around 50 packages each day. On the right plot the same data by day of week: many pacakges at the beginning of the week and fewer on the weekend. Pretest packages fall from 50 to around 30, while newbies drops from 80 to 70." width="1080" style="display: block; margin: auto;" /&gt;
+name:submission-patterns
+
+### Submissions patterns
+
+&lt;img src="index_files/figure-html/cran-day-month-1.png" title="Two plots with a loess estimation of the number of packages on the CRAN's folders newbies and pretest. On the left by day of month: Newbies has some dip at the beginning of the month and around day 20-29 but is around 70 packages a day, while pretests is constant around 50 packages each day. On the right plot the same data by day of week: many packages at the beginning of the week and fewer on the weekend. Pretest packages fall from 50 to around 30, while newbies drops from 80 to 70." alt="Two plots with a loess estimation of the number of packages on the CRAN's folders newbies and pretest. On the left by day of month: Newbies has some dip at the beginning of the month and around day 20-29 but is around 70 packages a day, while pretests is constant around 50 packages each day. On the right plot the same data by day of week: many packages at the beginning of the week and fewer on the weekend. Pretest packages fall from 50 to around 30, while newbies drops from 80 to 70." width="1080" style="display: block; margin: auto;" /&gt;
 
 .center[
-Check [dashboard](https://lockedata.github.io/cransays/articles/dashboard.html) before submitting?
+Check [the dashboard](https://lockedata.github.io/cransays/articles/dashboard.html) before submitting?
 ]
 
 ???
@@ -234,8 +515,10 @@ Check [dashboard](https://lockedata.github.io/cransays/articles/dashboard.html) 
 Submit when you are ready, better on the queue than outside.
 
 ---
+include:false
 name:review-time
-# Review time
+
+#### Review time
 
 &lt;img src="index_files/figure-html/cran-review-1.png" title="Histogram of time that a submission is on CRAN's queue. One big histogram from 0 to over 2000 hours, where most there are below 500h and decay in logarithmic pattern. Above it a zoom on the first week, split by 24h till 168h (1 week). Most submissions are less than 24h on the queue." alt="Histogram of time that a submission is on CRAN's queue. One big histogram from 0 to over 2000 hours, where most there are below 500h and decay in logarithmic pattern. Above it a zoom on the first week, split by 24h till 168h (1 week). Most submissions are less than 24h on the queue." width="1080" style="display: block; margin: auto;" /&gt;
 
@@ -251,9 +534,9 @@ Median time on submissions ~9 hours, mean time ~31.9166628 hours.
 
 ---
 
-# Review speed 
+#### Review speed 
 
-&lt;img src="index_files/figure-html/cran-submission-time-1.png" title="A plot with the loess estimation of hours for submission on CRAN. One line if the pacakge is new another if it is an update. Updated packages are 5 hours on the queue while new pacakges start from 160 hours dep to 80 before CRAN holidays (end of december and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours." alt="A plot with the loess estimation of hours for submission on CRAN. One line if the pacakge is new another if it is an update. Updated packages are 5 hours on the queue while new pacakges start from 160 hours dep to 80 before CRAN holidays (end of december and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours." width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/cran-submission-time-1.png" title="A plot with the loess estimation of hours for submission on CRAN. One line if the package is new another if it is an update. Updated packages are 5 hours on the queue while new packages start from 160 hours to 80 before CRAN holidays (end of December and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours." alt="A plot with the loess estimation of hours for submission on CRAN. One line if the package is new another if it is an update. Updated packages are 5 hours on the queue while new packages start from 160 hours to 80 before CRAN holidays (end of December and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours." width="1080" style="display: block; margin: auto;" /&gt;
 
 .center[Expect 3-7 days till your new package is on CRAN.]
 
@@ -280,9 +563,12 @@ rOpenSci: in 2 months (seeking 2 reviewers and posting them).
 
 
 
+
 ---
+
 name: users
-# Users role
+
+#### Users role
 
 
 
@@ -304,7 +590,7 @@ Omitted bots bioc-issue-bot and ropensci-review-bot (new March 2021).
 
 ---
 
-# Comments
+### Comments
 
 &lt;img src="index_files/figure-html/comments-1.png" title="Four plots, in 2 rows and 2 columns, the first column for Bioconductor and the second data from rOpenSci. First row shows comments from reviewers in relation to author's comments (almost linear relation). On the second row other users vs author's comments. Only linear relationship on rOpenSci as this include the reviewers. " alt="Four plots, in 2 rows and 2 columns, the first column for Bioconductor and the second data from rOpenSci. First row shows comments from reviewers in relation to author's comments (almost linear relation). On the second row other users vs author's comments. Only linear relationship on rOpenSci as this include the reviewers. " width="1080" style="display: block; margin: auto;" /&gt;
 
@@ -319,7 +605,7 @@ Non reviewers users on bioconductor still chime in to help.
 ---
 name:bot
 
-# Bot role
+### Bot role
 
 &lt;img src="index_files/figure-html/bioc-issue-bot-1.png" title="Tile plot with rows showing different message from bioc-issue-bot and columns being each issue for Bioconductor. The tile is colored by the number of times each bot posted the message. The plot shows how the bot changed with time and which are the most common feedback provided (in order of more feedback given): Build results, valid push, received, accepted, reviewer assigned. And common errors: missing repository, repost, fix version, closing issue, lacking ssh key, multiple repositories detected..." alt="Tile plot with rows showing different message from bioc-issue-bot and columns being each issue for Bioconductor. The tile is colored by the number of times each bot posted the message. The plot shows how the bot changed with time and which are the most common feedback provided (in order of more feedback given): Build results, valid push, received, accepted, reviewer assigned. And common errors: missing repository, repost, fix version, closing issue, lacking ssh key, multiple repositories detected..." width="1080" style="display: block; margin: auto;" /&gt;
 
@@ -332,10 +618,11 @@ It can be changed/adapted to change in requirements or errors.
 rOpenSci is going to have a bot too [ropensci-review-bot](https://github.com/ropensci-review-bot/). 
 
 ---
+
 exclude: true
 name: labels
 
-# Labels
+### Labels
 
 &lt;img src="index_files/figure-html/labels-1.png" title="Two tile plots showing labels related to the review process on the vertical axis and issues on the horitzontal axis. On the left Bioconductor and on the right rOpenSci. Bioconductor show many accepted packages few declined and more inactive issues. rOpenSci plot shows more labels which allow to better know the state of the review." alt="Two tile plots showing labels related to the review process on the vertical axis and issues on the horitzontal axis. On the left Bioconductor and on the right rOpenSci. Bioconductor show many accepted packages few declined and more inactive issues. rOpenSci plot shows more labels which allow to better know the state of the review." width="1080" style="display: block; margin: auto;" /&gt;
 
@@ -348,10 +635,11 @@ On bioconductor most problems with the submissions are not the package itself bu
 rOpenSci provides more detailed questioning for scope of a package.
 
 ---
-name:success-submissions
-# Success submissions
 
-&lt;img src="index_files/figure-html/cran_success-1.png" title="On the left a bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of pacakges. The bars are colored by if they are accepted or not. It is also split by new packages and updated pacakges. More new pacakges are not accepted on the first try than updates, but on resubmissions they are accepted. The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2021/06. Two lines with one for new submissions which shows a consistend rate around 81% and package updates is between 85% and 95% (until the time series get to close for the review to be finished)." alt="On the left a bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of pacakges. The bars are colored by if they are accepted or not. It is also split by new packages and updated pacakges. More new pacakges are not accepted on the first try than updates, but on resubmissions they are accepted. The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2021/06. Two lines with one for new submissions which shows a consistend rate around 81% and package updates is between 85% and 95% (until the time series get to close for the review to be finished)." width="1080" style="display: block; margin: auto;" /&gt;
+name:success-submissions
+## Success submissions
+
+&lt;img src="index_files/figure-html/cran_success-1.png" title="On the left a bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of packages. The bars are colored by if they are accepted or not. It is also split by new packages and updated packages. More new packages are not accepted on the first try than updates, but on resubmissions they are accepted. The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2021/06. Two lines with one for new submissions which shows a consistent rate around 81% and package updates is between 85% and 95% (until the time series get to close for the review to be finished)." alt="On the left a bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of packages. The bars are colored by if they are accepted or not. It is also split by new packages and updated packages. More new packages are not accepted on the first try than updates, but on resubmissions they are accepted. The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2021/06. Two lines with one for new submissions which shows a consistent rate around 81% and package updates is between 85% and 95% (until the time series get to close for the review to be finished)." width="1080" style="display: block; margin: auto;" /&gt;
 
 .bottom[.center[High approval rates!!]]
 
@@ -359,7 +647,7 @@ name:success-submissions
 
 Bioconductor &amp; rOpenSci 50%, some submissions are abandoned or do not fit the project.
 Different problems faced by new packages and older ones. 
-More indeepth review requires 1 month for each reviewer. 
+More in depth review requires 1 month for each reviewer. 
 
 
 ```
@@ -408,14 +696,23 @@ More indeepth review requires 1 month for each reviewer.
 
 
 ---
+
+## Success submissions II
+
+&lt;img src="index_files/figure-html/success_rate-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+
+.center[High acceptance rates]
+
+---
+
 name:submit
-# Submit!
 
+## Submit!
 
-.pull-left[
-
+.center[
 .tip-submission[
-Prepare
+.left[
+__Prepare__]
 .center[
  
   Manual to [create R packages](https://cran.r-project.org/doc/manuals/r-release/R-exts.html#Creating-R-packages), [R Packages](https://r-pkgs.org/)  
@@ -436,50 +733,188 @@ Prepare
 .right[(Re)***Submit***]
 .center[[Fix and explain](https://cran.r-project.org/web/packages/policies.html#Re_002dsubmission) on re-submission.]
 ]
-
 ]
+
+
 ???
 
 Follow the detailed guidelines from Bioconductor and rOpenSci.
-Fix any problem that you haven't detected previously (double check the policy on CRAN). 
+Fix any problem that you haven't detected previously (double check the [CRAN repository policy](https://cran.r-project.org/web/packages/policies.html)). 
 Resubmit
+
+---
+class: bold-last-item
+name:maintaining-packages
+# Maintaining packages
+
+- Keep up to date
+
+    Changes on R code, changes on dependencies, changes on CRAN checks.
+    
+???
+
+Not in your hands to control
+
+--
+
+- Change code of the package
+
+    Evaluate how to adapt your package
+    
+???
+
+Better quality =&gt; Less work
+
+--
+
+- New releases
+
+    Provide new releases
+
+???
+
+Check also your dependencies be mindful to users
+
+---
+class: bold-last-item
+## Changing the package
+
+.pull-left[
+**New features**
+
+Whenever you want
+
+.minor[.minor[On Bioconductor only after each release]]
+]
+
+???
+
+Be mindful that you now "need" to support this.
+
+--
+
+
+.pull-right[
+**Deprecating features/breaking changes**
+
+- Notify users: NEWS, warnings , deprecate via [`.Deprecated`](https://search.r-project.org/R/refmans/base/html/Deprecated.html "Help page of .Deprecated")
+]
+
+--
+.pull-right[
+- And later on defunct via [`.defunct`](https://search.r-project.org/R/refmans/base/html/Defunct.html, "Help page of .Defunct")
+]
 
 --
 
 .pull-right[
 
-.center[
-# Thanks
-
-R core and CRAN team,
-Bioconductor core, 
-rOpenSci editors and reviewers
-]
+- If you have dependencies: notify with at least 1 month before submitting
 
 ]
 
 ???
 
+Deprecate and defunct are important steps to notify users.  
+Be mindful also to other developers that depend on your package: give them time, hear their concerns...
+
+---
+
+## Keep checks clean
+
+
+&lt;img src="index_files/figure-html/checks-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+
+.center[Most packages are in good shape.]
+
+---
+
+
+
+
+## Be responsive
+
+&lt;img src="index_files/figure-html/plots_archiving-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+
+
+.center[Packages might be archived from repositories]
+
+---
+
+## Common reasons of archiving:
+
+
+
+&lt;img src="index_files/figure-html/reasons_top-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+
+.center[Check email!]
+
+---
+
+## Archived?
+
+.pull-left[
+
+![:scale 60% "Meme image of keep calm and carry on"](images/keep-calm-and-carry-on-original.jpg)
+]
+
+.pull-right[
+
+Understand why happened.
+
+Fix and resubmit (Your package will need to pass the new package checks again.)
+
+.middle[
+
+
+|CRAN | Packages|Proportion |
+|:----|--------:|:----------|
+|no   |     3097|60%        |
+|yes  |     2048|40%        |
+
+]
+]
+
+.center[  
+Most archived packages return to CRAN.]
+
+---
+
+# Summary
+
+- 🚧 Creating a package is easy.
+
+- 📦 Releasing a package is doable.
+
+- ⚙️ Maintaining the high standards is not.
+
+--
+
+.middle[.center[
+
+Thanks to the R core team past and current members.
+
+Thanks to the CRAN, Bioconductor, rOpenSci teams.
+
+All the contributors to packages used to make this presentation.
+
+]]
+
+--
+
+.middle[.center[
+
+**To you!**
+
+]]
+
+
+???
+
 Thank also to the package authors (mainly tidyverse, ggplot2 and rhub, and gh).
-Maëlle Salmon and Stephanie Locke for the dashboard.
+Maëlle Salmon and Stephanie Locke for the CRAN dashboard.
+And the organization.
 rOpenSci review: [Video](https://www.youtube.com/watch?v=iJnn_9xKkqk)
-
-
----
-# Maintaining the package
-
-Better quality =&gt; Less work
-
-Iteration process
-
-## New features
-
-## Deprecating features/breaking changes
-
----
-
-# Conclusions
-
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

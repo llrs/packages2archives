@@ -24,8 +24,76 @@ tr {background-color: #ffffff; }
   border-radius: 25px;
   background-color: #ecf4ec;
   margin: 5px;
-  padding-right: 5%;
-  padding-left: 5%;
-  width: 100%;
+  padding-right: 1%;
+  padding-left: 1%;
+  width: 95%;
   height: 90%;  
+}
+
+.center2 {
+  position: relative;
+  top: 50%;
+  -ms-transform.translateY -50%;
+  transform.translateY -50%;
+}
+
+div.my-footer {
+    /* background-color: #050045; */
+    position: absolute;
+    bottom: 20px;
+    left: 0px;
+    height: 20px;
+    width: 100%;
+}
+
+a {
+  color: blue;
+}
+
+div.my-footer span {
+  font-size: 5pt;
+  /* color: #F7F8FA; */
+  position: absolute;
+  left: 15px;
+  bottom: 2.5%;
+}
+
+div.my-footer > a {
+  font-size: 10pt;
+  bottom: 2.5%;
+}
+
+ul {
+ position: relative; 
+}
+
+.center > ul {
+  position: relative;
+}
+
+
+.highlight-last-item > ul > li,
+.highlight-last-item > ol > li {
+  opacity: 0.5;
+}
+.highlight-last-item > ul > li:last-of-type,
+.highlight-last-item > ol > li:last-of-type {
+  opacity: 1;
+}
+
+.demo > li {
+  color: gray;
+}
+.demo > li:last-of-type {
+  color: purple;
+  font-weight: bold;
+}
+
+.bold-last-item > ul > li:last-of-type,
+.bold-last-item > ol > li:last-of-type {
+  font-weight: bold;
+}
+
+.minor {
+  size: -1
 }
