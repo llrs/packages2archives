@@ -381,11 +381,24 @@ In Rstudio you can convert the special comments into documentation with <kbd>Ctr
 name: release-packages
 # Releasing the package
 
+<br><br>
+
+.center[**Sharing** with others]
+
+<br><br>
+.center[A `my_package.tar.gz` file ] 
+
+--
+
+<br>
+
+.center[Built with `R CMD build my_package`]
+
 ???
 
-What does it mean?
+What does it mean? Building `R CMD build` and making it accessible to other people, example: `install.packages("http://biodev.cea.fr/sgcca/gliomaData_0.4.tar.gz", repos = NULL)`
 
-What are the expectations?
+What are the expectations? 
 
 ---
 class: bold-last-item
@@ -623,7 +636,7 @@ cran |>
            size = theme_get()$text[["size"]]/2.5, 
            y = 125, label = "Holidays/\nmaintenance") +
   geom_path(aes(snapshot_time, packages, col = folder, linetype = folder)) +
-  scale_x_datetime(date_labels = "%m/%d", breaks = fdates, 
+  scale_x_datetime(date_labels = "%y/%m", date_breaks = "1 month",
                    expand = expansion()) +
   scale_y_continuous(expand = expansion()) +
   scale_color_manual(values = man_colors[c("newbies", "pretest")]) +
@@ -1415,8 +1428,7 @@ success_dates
 ---
 
 name:submit
-
-## Submit!
+## Prepare sumbission
 
 .center[
 .tip-submission[
@@ -1429,6 +1441,8 @@ __Prepare__]
 ]
 ]
 
+<br>
+
 .tip-submission[
 .center[
 **Check**
@@ -1438,11 +1452,8 @@ __Prepare__]
   [Use Rhub](https://builder.r-hub.io/), [Github Actions](https://github.com/r-lib/actions)]
 ]
 
-.tip-submission[ 
-.right[(Re)***Submit***]
-.center[[Fix and explain](https://cran.r-project.org/web/packages/policies.html#Re_002dsubmission) on re-submission.]
 ]
-]
+
 
 
 ???
@@ -1450,6 +1461,42 @@ __Prepare__]
 Follow the detailed guidelines from Bioconductor and rOpenSci.
 Fix any problem that you haven't detected previously (double check the [CRAN repository policy](https://cran.r-project.org/web/packages/policies.html)). 
 Resubmit
+
+---
+name:celebrate
+## Submit
+
+.tip-submission[
+[Via web](https://cran.r-project.org/submit.html "Submission page") or  `devtools::release()`
+]
+
+--
+
+.center[ Nervous]
+
+--
+
+.right[Wait..]
+
+--
+
+.tip-submission[ 
+.left[***Resubmit***]
+.center[
+[Fix and explain](https://cran.r-project.org/web/packages/policies.html#Re_002dsubmission) on re-submission.]
+]
+
+--
+
+.center[ Celebrate!! `r emo::ji("party")` 
+ 
+Announce to the community: 
+
+`r emo::ji("mail")` [R-packages mailing   list](https://stat.ethz.ch/mailman/listinfo/r-packages)  
+`r fontawesome::fa("twitter")` Social media  
+`r emo::ji("family")` Family?  
+Parties interested: users, R-user-groups, ...
+]
 
 ---
 class: bold-last-item

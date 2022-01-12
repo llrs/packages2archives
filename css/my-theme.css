@@ -20,6 +20,7 @@ th {background-color: #ffffff; font-weight: bold; }
 tr {background-color: #ffffff; }
 
 .tip-submission {
+  position: relative;
   border: solid 1px #000000;
   border-radius: 25px;
   background-color: #ecf4ec;
