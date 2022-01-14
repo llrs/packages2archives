@@ -95,6 +95,10 @@ ul {
   font-weight: bold;
 }
 
+.bold-last-item > p {
+  font-weight: normal;
+}
+
 .minor {
   size: -1
 }

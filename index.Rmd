@@ -142,7 +142,8 @@ class: bold-last-item
 
 --
 
-- Code
+<br>
+.center[Code]
 
 ???
 
@@ -150,7 +151,8 @@ Most common usage
 
 --
 
-- Data
+<br>
+.center[Data]
 
 ???
 
@@ -158,7 +160,8 @@ Less used due to restrictions on size on CRAN
 
 --
 
-- Documentation
+<br>
+.center[Documentation]
 
 ???
 
@@ -210,18 +213,22 @@ knitr::include_graphics("images/tidyverse_dtplyr.png")
 
 ]
 
-.right-column[
-- `.github` folder: Files specific to GitHub (this isn't necessary/[Advanced content](https://ghana.llrs.dev/#advanced))
-- A __`R` folder with [*.R files](https://ghana.llrs.dev/#r-files)__: your code.
-- A `man` folder with [*.rd files](https://ghana.llrs.dev/#rd-files): your documentation.
-- A `tests` folder: [Check the code](https://ghana.llrs.dev/#tests) of the package.
-- A [`vignette` folder](https://ghana.llrs.dev/#vignettes): Long documentation; not just examples.
-- A `.Rbuildignore`: A file describing what to omit when building the package.
-- A __[`DESCRIPTION` file](https://ghana.llrs.dev/#description)__: Summary and description of the package.
-- A [`LICENSE` file](https://ghana.llrs.dev/#licenses): The conditions under the package is released.
-- A __[`NAMESPACE` file](https://ghana.llrs.dev/#namespace)__: What this package shares and needs.
-- A [`NEWS` file](https://ghana.llrs.dev/#news): What has changed since last release.
-- A [`README`](https://ghana.llrs.dev/#readme): How to install and why this packages is needed and some basic examples.
+
+.right-column[ 
+
+
+- A `.github` folder: Files specific to GitHub (this isn't necessary/[Advanced content](https://ghana.llrs.dev/#advanced))  
+- A **R folder with [*.R files](https://ghana.llrs.dev/#r-files)**: your code.  
+- A `man` folder with [*.rd files](https://ghana.llrs.dev/#rd-files): your documentation.  
+- A `tests` folder: [Check the code](https://ghana.llrs.dev/#tests) of the package.  
+- A [`vignette` folder](https://ghana.llrs.dev/#vignettes): Long documentation; not just examples.  
+- A `.Rbuildignore`: A file describing what to omit when building the package.  
+- A __[`DESCRIPTION` file](https://ghana.llrs.dev/#description)__: Summary and description of the package.  
+- A [`LICENSE` file](https://ghana.llrs.dev/#licenses): The conditions under the package is released.  
+- A __[`NAMESPACE` file](https://ghana.llrs.dev/#namespace)__: What this package shares and needs.  
+- A [`NEWS` file](https://ghana.llrs.dev/#news): What has changed since last release.  
+- A [`README`](https://ghana.llrs.dev/#readme): How to install and why this packages is needed and some basic examples.  
+
 ]
 
 ---
@@ -406,7 +413,7 @@ class: bold-last-item
 
 - Repository
 
-    Git repository `r emo::ji("crossed_swords")` svn, or none
+.center[Git repository, svn, or none]
 
 ???
 
@@ -416,7 +423,7 @@ Repositories keep versions of code
 
 - Archive
 
-    CRAN/Bioconductor `r emo::ji("crossed_swords")` Zenodo
+.center[CRAN, Bioconductor, Zenodo]
 
 ???
 
@@ -428,7 +435,7 @@ Only CRAN, Bioconductor and additional repositories like [r-universe](https://r-
 
 - All
 
-    GitHub + R-universe + (rOpenSci)CRAN/Bioconductor + Zenodo
+.center[GitHub + R-universe + (rOpenSci) + CRAN/Bioconductor + Zenodo]
 
 ???
 
@@ -1540,7 +1547,7 @@ class: bold-last-item
 
 Whenever you want
 
-.minor[.minor[On Bioconductor only after each release]]
+.minor[.minor[ On Bioconductor only after each release ] ]
 ]
 
 ???
@@ -1742,9 +1749,10 @@ hist_expand |>
 
 .pull-right[
 
-Understand why happened.
+.center[Understand why happened.]
 
-Fix and resubmit (Your package will need to pass the new package checks again.)
+.center[Fix and resubmit]  
+(Your package will need to pass the new package checks again.)
 
 .middle[
 
@@ -1772,7 +1780,7 @@ pkg_event |>
 ]
 
 .center[  
-Most archived packages return to CRAN.]
+Many archived packages return to CRAN.]
 
 ---
 
@@ -1787,7 +1795,7 @@ Most archived packages return to CRAN.]
 --
 
 .middle[.center[
-
+<br>
 Thanks to the R core team past and current members.
 
 Thanks to the CRAN, Bioconductor, rOpenSci teams.
@@ -1800,6 +1808,7 @@ All the contributors to packages used to make this presentation.
 
 .middle[.center[
 
+<br><br>
 **To you!**
 
 ]]
