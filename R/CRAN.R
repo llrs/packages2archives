@@ -104,6 +104,7 @@ saveRDS(l, "output/CRAN_archival_dates.RDS")
 
 
 # Clean up
+unlink("R/static", recursive = TRUE)
 unlink("static/", recursive = TRUE)
 unlink("output/cransays-history/", recursive = TRUE)
 unlink("output/cransays-history.zip", recursive = TRUE)
