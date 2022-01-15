@@ -69,38 +69,44 @@ class: center, middle
 2022/01/16
 
 
-.minor[.minor[(updated: 2022-01-13 )]]
+.minor[.minor[(updated: 2022-01-15 )]]
 
 ---
-
 name:index
-class: bold-last-item
 
 # Index
 
 
+&lt;br&gt;
+
+.pull-left[
+
  - [Creating good packages](#good-packages).
- 
-???
 
-Mainly based on the [previous workshop](https://llrs.dev/talk/workshop-creating-packages/) for this user group.
 
---
+&lt;br&gt;
 
  - [Releasing packages](#release-packages).
- 
+
+&lt;br&gt;
+
+ - [Maintaining packages.](#maintaining-packages)
+
+]
+
 ???
 
-Mainly based on the [useR!2021 talk](https://llrs.dev/talk/user-2021/)
+Creating packages based on the [previous workshop](https://llrs.dev/talk/workshop-creating-packages/) for this user group. 
+
+Release process based on the [useR!2021 talk](https://llrs.dev/talk/user-2021/)
+
+Maintaining packages based on the [archived packages files.](https://llrs.dev/post/2021/12/07/reasons-cran-archivals/)
 
 --
 
- - [Maintaining packages.](#maintaining-packages)
- 
-
-???
-
-Mainly based on the [archived packages files.](https://llrs.dev/post/2021/12/07/reasons-cran-archivals/)
+.pull-right[
+![](https://c.tenor.com/abY7c2fitNIAAAAC/thumb-okay.gif)
+]
 
 ---
 name:good-packages
@@ -157,10 +163,11 @@ name:resources
 .center[
 
 You can also find help online (always check the etiquette)
-- Asking your local community: R User Group Ghana
-- [Asking on Twitter #rstats](https://www.t4rstats.com/)
-- [Asking on Stack Overflow](https://stackoverflow.com/questions/5963269)
-- [Asking on Rstudio forum](https://community.rstudio.com/)
+
+Asking your local community: R User Group Ghana  
+[Asking on Twitter #rstats](https://www.t4rstats.com/)  
+[Asking on Stack Overflow](https://stackoverflow.com/questions/5963269)  
+[Asking on RStudio forum](https://community.rstudio.com/)
 
 ]
 ???
@@ -327,7 +334,8 @@ Using roxygen2:
 #' Check if object is of class meow.
 #' @param x A character string.
 #'
-#' @return A logical value with either TRUE or FALSE if the object is a meow.
+#' @return A logical value with either TRUE or FALSE 
+#'  if the object is a meow.
 #' @export
 #' @examples
 #' is_meow("hi")
@@ -350,6 +358,54 @@ document()
 
 In Rstudio you can insert the skeleton with &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Alt&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;R&lt;/kbd&gt; .
 In Rstudio you can convert the special comments into documentation with &lt;kbd&gt;Ctrl&lt;/kbd&gt;+&lt;kbd&gt;Shift&lt;/kbd&gt;+&lt;kbd&gt;D&lt;/kbd&gt; .
+
+---
+class: bold-last-item
+
+## Not covered here:
+
+&lt;br&gt;
+
+- Vignettes and articles
+
+???
+
+Articles are like vignettes but not checked by `R CMD check`
+
+--
+
+- Tests
+
+???
+
+With testthat, tinytest or other ways
+
+--
+
+- Website for the documentation of the package
+
+???
+
+Sites with pkgdown or other tools.
+
+--
+
+- Compiled code
+
+???
+
+C++, C, Fortran or linking to other languages, Java, perl; or other programs (cURl, xmldev)
+
+--
+
+- Other
+
+???
+
+How to choose a name of the package.  
+How to write a good README and NEWS file.
+Set up continuous integration tests.
+How to pick up a license.
 
 ---
 name: release-packages
@@ -376,7 +432,10 @@ What are the expectations?
 
 ---
 class: bold-last-item
+
 ## Choosing the right archive/repository
+
+&lt;br&gt;&lt;br&gt;
 
 - Repository
 
@@ -445,8 +504,13 @@ Bioconductor: In detail comment of style, classes, dependencies, structure…
 rOpenSci: guideline for reviewers (about style, tests, functions, description, documentation, …)
 
 
-CRAN ~16000 packages, Bioconductor ~2000,  rOpenSci ~300
+CRAN ~18000 packages, Bioconductor ~2000,  rOpenSci ~300
 To work with this slides use xaringan::infinite_moon_reader()
+
+--
+
+.bottom[.center[Pick the right for you and your users]]
+
 
 ---
 name:projects
@@ -486,7 +550,7 @@ name:submissions
 ### Submissions
 
 
-&lt;img src="index_files/figure-html/submissions-1.png" title="Three bar plots with new submissions, each bar is a month: on the left CRAN with 9 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 monthly submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci." alt="Three bar plots with new submissions, each bar is a month: on the left CRAN with 9 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 monthly submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci." width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/submissions-1.png" title="Three bar plots with new submissions, each bar is a month: on the left CRAN with 16 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 monthly submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci." alt="Three bar plots with new submissions, each bar is a month: on the left CRAN with 16 months collected, on the middle Bioconductor with 5 years of data, on the right rOpenSci with 6 years of data. CRAN has about 300 monthly submissions, Bioconductor 30, rOpenSci 10. Some variance can be observed, specially on Bioconductor and rOpenSci." width="1080" style="display: block; margin: auto;" /&gt;
 
 
 .center[
@@ -506,7 +570,7 @@ name:organization
 
 ### Organization
 
-&lt;img src="index_files/figure-html/cran-holidays-1.png" title="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to May 2021 accounted hourly. Pretest is mainly below 10 packages and newbies around 70. There are same increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beginning of April." alt="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to May 2021 accounted hourly. Pretest is mainly below 10 packages and newbies around 70. There are same increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beginning of April." width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/cran-holidays-1.png" title="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to January 2022 accounted hourly. Pretest is mainly below 10 packages and newbies around 25. There are same increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beginning of April." alt="Line plot with number of packages on CRAN's folders newbies and pretest from September 2020 to January 2022 accounted hourly. Pretest is mainly below 10 packages and newbies around 25. There are same increase on newbies packages around October and after CRAN holidays of December-January (which is marked on red). There are two spikes on packages on pretest folder, one after the holidays and another one at the beginning of April." width="1080" style="display: block; margin: auto;" /&gt;
 
 .center[
 Packages are moved by reviewers [between folders](https://llrs.dev/2021/01/cran-review/#cran-load).
@@ -535,7 +599,7 @@ Check [the dashboard](https://lockedata.github.io/cransays/articles/dashboard.ht
 Submit when you are ready, better on the queue than outside.
 
 ---
-include:false
+include: false
 name:review-time
 
 #### Review time
@@ -546,8 +610,8 @@ name:review-time
 
 ???
 
-Median time on submissions ~9 hours, mean time ~31.9166628 hours.
-1, 2, 9, 31.9166628, 34, 2365
+Median time on submissions ~9 hours, mean time ~31.4254531 hours.
+1, 2, 9, 31.4254531, 33, 2365
 
 
 
@@ -556,7 +620,7 @@ Median time on submissions ~9 hours, mean time ~31.9166628 hours.
 
 #### Review speed 
 
-&lt;img src="index_files/figure-html/cran-submission-time-1.png" title="A plot with the loess estimation of hours for submission on CRAN. One line if the package is new another if it is an update. Updated packages are 5 hours on the queue while new packages start from 160 hours to 80 before CRAN holidays (end of December and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours." alt="A plot with the loess estimation of hours for submission on CRAN. One line if the package is new another if it is an update. Updated packages are 5 hours on the queue while new packages start from 160 hours to 80 before CRAN holidays (end of December and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours." width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/cran-submission-time-1.png" title="A plot with the loess estimation of hours for submission on CRAN. One line if the package is new another if it is an update. Updated packages are 5 hours on the queue while new packages start from 200 hours to 80 before CRAN holidays (end of December and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours." alt="A plot with the loess estimation of hours for submission on CRAN. One line if the package is new another if it is an update. Updated packages are 5 hours on the queue while new packages start from 200 hours to 80 before CRAN holidays (end of December and beginning of January), increase again after holidays to around 120 to slowly decay till they reach 40 hours." width="1080" style="display: block; margin: auto;" /&gt;
 
 .center[Expect 3-7 days till your new package is on CRAN.]
 
@@ -572,7 +636,7 @@ Resubmit with different version (makes it easier to track how many are).
 ## # A tibble: 2 × 2
 ##   new     time
 ##   &lt;chr&gt;  &lt;dbl&gt;
-## 1 New       59
+## 1 New       58
 ## 2 Update     5
 ```
 
@@ -638,13 +702,11 @@ It can be changed/adapted to change in requirements or errors.
 rOpenSci is going to have a bot too [ropensci-review-bot](https://github.com/ropensci-review-bot/). 
 
 ---
-
-exclude: true
 name: labels
 
 ### Labels
 
-&lt;img src="index_files/figure-html/labels-1.png" title="Two tile plots showing labels related to the review process on the vertical axis and issues on the horitzontal axis. On the left Bioconductor and on the right rOpenSci. Bioconductor show many accepted packages few declined and more inactive issues. rOpenSci plot shows more labels which allow to better know the state of the review." alt="Two tile plots showing labels related to the review process on the vertical axis and issues on the horitzontal axis. On the left Bioconductor and on the right rOpenSci. Bioconductor show many accepted packages few declined and more inactive issues. rOpenSci plot shows more labels which allow to better know the state of the review." width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/labels-1.png" title="Two tile plots showing labels related to the review process on the vertical axis and issues on the horizontal axis. On the left Bioconductor and on the right rOpenSci. Bioconductor show many accepted packages few declined and more inactive issues. rOpenSci plot shows more labels which allow to better know the state of the review." alt="Two tile plots showing labels related to the review process on the vertical axis and issues on the horizontal axis. On the left Bioconductor and on the right rOpenSci. Bioconductor show many accepted packages few declined and more inactive issues. rOpenSci plot shows more labels which allow to better know the state of the review." width="1080" style="display: block; margin: auto;" /&gt;
 
 
 .bottom[ .center[ Labels are used to indicate progress on the submission. ] ]
@@ -659,7 +721,7 @@ rOpenSci provides more detailed questioning for scope of a package.
 name:success-submissions
 ## Success submissions
 
-&lt;img src="index_files/figure-html/cran_success-1.png" title="On the left a bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of packages. The bars are colored by if they are accepted or not. It is also split by new packages and updated packages. More new packages are not accepted on the first try than updates, but on resubmissions they are accepted. The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2021/06. Two lines with one for new submissions which shows a consistent rate around 81% and package updates is between 85% and 95% (until the time series get to close for the review to be finished)." alt="On the left a bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of packages. The bars are colored by if they are accepted or not. It is also split by new packages and updated packages. More new packages are not accepted on the first try than updates, but on resubmissions they are accepted. The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2021/06. Two lines with one for new submissions which shows a consistent rate around 81% and package updates is between 85% and 95% (until the time series get to close for the review to be finished)." width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/cran_success-1.png" title="A bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of packages. The bars are colored by if they are accepted or not. It is also split by new packages and updated packages. More new packages are not accepted on the first try than updates, but on resubmissions they are accepted." alt="A bar plot with packages submissions to CRAN on the x axis and on the vertical axis the number of packages. The bars are colored by if they are accepted or not. It is also split by new packages and updated packages. More new packages are not accepted on the first try than updates, but on resubmissions they are accepted." width="1080" style="display: block; margin: auto;" /&gt;
 
 .bottom[.center[High approval rates!!]]
 
@@ -671,47 +733,47 @@ More in depth review requires 1 month for each reviewer.
 
 
 ```
-## # A tibble: 49 × 7
+## # A tibble: 50 × 7
 ##    submission_n new    Accepted     n  perc suspended perc_suspended
 ##    &lt;fct&gt;        &lt;chr&gt;  &lt;lgl&gt;    &lt;int&gt; &lt;dbl&gt;     &lt;dbl&gt;          &lt;dbl&gt;
-##  1 1            New    FALSE      624 17.6        624          30.9 
-##  2 1            New    TRUE      2917 82.4          0           0   
-##  3 1            Update FALSE      675 13.4        675          33.4 
-##  4 1            Update TRUE      4372 86.6          0           0   
-##  5 2            New    FALSE      143 23.5        143           7.08
-##  6 2            New    TRUE       466 76.5          0           0   
-##  7 2            Update FALSE      264  8.41       264          13.1 
-##  8 2            Update TRUE      2874 91.6          0           0   
-##  9 3            New    FALSE       42 21.2         42           2.08
-## 10 3            New    TRUE       156 78.8          0           0   
-## # … with 39 more rows
+##  1 1            New    FALSE      652 17.8        652          31.0 
+##  2 1            New    TRUE      3015 82.2          0           0   
+##  3 1            Update FALSE      691 13.4        691          32.8 
+##  4 1            Update TRUE      4456 86.6          0           0   
+##  5 2            New    FALSE      148 23.4        148           7.03
+##  6 2            New    TRUE       485 76.6          0           0   
+##  7 2            Update FALSE      270  8.27       270          12.8 
+##  8 2            Update TRUE      2993 91.7          0           0   
+##  9 3            New    FALSE       41 20.4         41           1.95
+## 10 3            New    TRUE       160 79.6          0           0   
+## # … with 40 more rows
 ```
 
 ```
 ## # A tibble: 2 × 3
 ##   Approved     n  perc
 ##   &lt;chr&gt;    &lt;int&gt; &lt;dbl&gt;
-## 1 No        1218 0.502
-## 2 Yes       1206 0.498
+## 1 No        1233 0.505
+## 2 Yes       1208 0.495
 ```
 
 ```
 ## # A tibble: 1 × 4
 ##   `1. awaiting moderation` `2. review in progress` `3a. accepted` `3b. declined`
 ##                      &lt;dbl&gt;                   &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt;
-## 1                0.0000231                   0.296           35.7           19.1
+## 1                0.0000231                   0.299           35.7           19.1
 ```
 
 
 
 |name                            | Median days| Total days|
 |:-------------------------------|-----------:|----------:|
-|1/editor-checks                 |         2.9|        2.9|
-|2/seeking-reviewer(s)           |         2.4|        5.3|
-|3/reviewer(s)-assigned          |         7.1|       12.4|
-|4/review(s)-in-awaiting-changes |        26.9|       39.3|
-|5/awaiting-reviewer(s)-response |        17.1|       56.4|
-|6/approved                      |        13.3|       69.7|
+|1/editor-checks                 |         2.8|        2.8|
+|2/seeking-reviewer(s)           |         2.4|        5.2|
+|3/reviewer(s)-assigned          |         7.1|       12.3|
+|4/review(s)-in-awaiting-changes |        27.0|       39.3|
+|5/awaiting-reviewer(s)-response |        17.1|       56.3|
+|6/approved                      |        13.3|       69.6|
 
 
 
@@ -719,7 +781,7 @@ More in depth review requires 1 month for each reviewer.
 
 ## Success submissions II
 
-&lt;img src="index_files/figure-html/success_rate-1.png" width="1080" style="display: block; margin: auto;" /&gt;
+&lt;img src="index_files/figure-html/success_rate-1.png" title="The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2022/01. Two lines with one for new submissions which shows a consistent rate around 80% and package updates is around 90%. When the time series get too close to the last day data was collected the long reviews haven't finished so the rates fall." alt="The plot on the right shows the acceptance rate of CRAN for the range of dates from 2020/09 to 2022/01. Two lines with one for new submissions which shows a consistent rate around 80% and package updates is around 90%. When the time series get too close to the last day data was collected the long reviews haven't finished so the rates fall." width="1080" style="display: block; margin: auto;" /&gt;
 
 .center[High acceptance rates]
 
@@ -765,7 +827,8 @@ name:celebrate
 ## Submit
 
 .tip-submission[
-[Via web](https://cran.r-project.org/submit.html "Submission page") or  `devtools::release()`
+.left[[Via web](https://cran.r-project.org/submit.html "Submission page") or  `devtools::release()`.]
+
 ]
 
 --
@@ -786,12 +849,11 @@ name:celebrate
 
 --
 
-.center[ Celebrate!! 🎉 
+.center[  🎉 Celebrate 🎉 
  
-Announce to the community: 
-
-📫 [R-packages mailing   list](https://stat.ethz.ch/mailman/listinfo/r-packages)  
-<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg> Social media  
+Announce to the community:  
+📥 [R-packages mailing   list](https://stat.ethz.ch/mailman/listinfo/r-packages)  
+🐦 Social media  
 👪 Family?  
 Parties interested: users, R-user-groups, ...
 ]
@@ -801,19 +863,23 @@ class: bold-last-item
 name:maintaining-packages
 # Maintaining packages
 
+&lt;br&gt;
+
 - Keep up to date
 
-    Changes on R code, changes on dependencies, changes on CRAN checks.
+Changes on R code, changes on dependencies, changes on CRAN checks.
     
 ???
 
-Not in your hands to control
+Not in your hands to control, reactive work
 
 --
 
+&lt;br&gt;
+
 - Change code of the package
 
-    Evaluate how to adapt your package
+Evaluate how to adapt your package
     
 ???
 
@@ -821,13 +887,15 @@ Better quality =&gt; Less work
 
 --
 
+&lt;br&gt;
+
 - New releases
 
-    Provide new releases
+Provide new releases
 
 ???
 
-Check also your dependencies be mindful to users
+Check also your dependencies and be mindful to users
 
 ---
 class: bold-last-item
@@ -872,6 +940,10 @@ Be mindful that you now "need" to support this.
 Deprecate and defunct are important steps to notify users.  
 Be mindful also to other developers that depend on your package: give them time, hear their concerns...
 
+--
+
+.bottom[.center[Make life easy to users and developers]]
+
 ---
 
 ## Keep checks clean
@@ -886,7 +958,7 @@ Be mindful also to other developers that depend on your package: give them time,
 
 
 
-## Be responsive
+## CRAN mainteinance
 
 &lt;img src="index_files/figure-html/plots_archiving-1.png" width="1080" style="display: block; margin: auto;" /&gt;
 
@@ -924,8 +996,8 @@ Be mindful also to other developers that depend on your package: give them time,
 
 |CRAN | Packages|Proportion |
 |:----|--------:|:----------|
-|no   |     3084|60%        |
-|yes  |     2061|40%        |
+|no   |     3091|60%        |
+|yes  |     2063|40%        |
 
 ]
 ]
@@ -937,11 +1009,11 @@ Many archived packages return to CRAN.]
 
 # Summary
 
-- 🚧 Creating a package is easy.
+- 🚧 [Creating a package](#good-packages) is easy.
 
-- 📦 Releasing a package is doable.
+- 📦 [Releasing a package](#release-packages) is doable.
 
-- ⚙️ Maintaining the high standards is not.
+- ⚙️ [Maintaining](#maintaining-packages) the high standards is not.
 
 --
 
@@ -971,6 +1043,12 @@ Thank also to the package authors (mainly tidyverse, ggplot2 and rhub, and gh).
 Maëlle Salmon and Stephanie Locke for the CRAN dashboard.
 And the organization.
 rOpenSci review: [Video](https://www.youtube.com/watch?v=iJnn_9xKkqk)
+
+
+
+```
+## NULL
+```
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
